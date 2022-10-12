@@ -112,9 +112,27 @@ float arraySumVector(float *values, int N)
   // PP STUDENTS TODO: Implement your vectorized version of arraySumSerial here
   //
 
+  float sum = 0.0;
+
+  // 宣告中間會用到的變數，概念類似register
+  __pp_vec_float x, y;
+
+  // 宣告mask與初始化
+  __pp_mask maskAll;
+  maskAll = _pp_init_ones();
+
   for (int i = 0; i < N; i += VECTOR_WIDTH)
   {
+    _pp_vload_float(x, values + i, maskAll); // x = values[i]
+
+    int count = VECTOR_WIDTH;
+    while ((count /= 2) >= 1) // 做log2(VECTOR_WIDTH)次就好 (You can assume VECTOR_WIDTH is a power of 2)
+    {
+      _pp_hadd_float(y, x); // 相鄰的相加
+      _pp_interleave_float(x, y); // 把偶數位置移到前半，奇數位置移到後半。因為_pp_interleave_float(x,x)會因src未備份而出問題，所以才用x和y兩個
+    }
+    sum += x.value[0]; // x的第一個值就是整個vector的sum
   }
 
-  return 0.0;
+  return sum;
 }
