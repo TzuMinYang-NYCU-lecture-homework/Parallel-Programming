@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<!-- saved from url=(0127)https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly -->
+<html lang="zh-TW"><script async="" src="./Parallel Programming @ NYCU - HW1 - HackMD_files/gtm.js.下載"></script><script id="allow-copy_script">(function agent() {
+    let unlock = false
+    document.addEventListener('allow_copy', (event) => {
+      unlock = event.detail.unlock
+    })
+
+    const copyEvents = [
+      'copy',
+      'cut',
+      'contextmenu',
+      'selectstart',
+      'mousedown',
+      'mouseup',
+      'mousemove',
+      'keydown',
+      'keypress',
+      'keyup',
+    ]
+    const rejectOtherHandlers = (e) => {
+      if (unlock) {
+        e.stopPropagation()
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation()
+      }
+    }
+    copyEvents.forEach((evt) => {
+      document.documentElement.addEventListener(evt, rejectOtherHandlers, {
+        capture: true,
+      })
+    })
+  })()</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="csrf-token" content="zqBTKooE-M8Sd6iegGOUCzqmUFLUT_e443gc">
+    
+    
+    <meta name="description" content="# Parallel Programming @ NYCU - HW1 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; Q1-1: Does th">
+    
+    <title>Parallel Programming @ NYCU - HW1 - HackMD</title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+	<link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+    
+<script nonce="">
+  window.domain = 'hackmd.io'
+  window.urlpath = ''
+  window.debug = false
+  window.version = '1.3.0'
+  window.brand = 'HackMD'
+
+  
+  window.NOTE_ID = 'F9n7KNwSR_GNib1_yekRRw'
+  
+
+  window.GOOGLE_API_KEY = 'AIzaSyCjSrqWHhmWJnoI7JlD88XDSaBgiKbaenA'
+  window.GOOGLE_CLIENT_ID = '911617723593-drikdibvvn63slfd6kbqigo8ql1no55s.apps.googleusercontent.com'
+  window.DROPBOX_APP_KEY = 'rdoizrlnkuha23r'
+  
+  window.PLANTUML_SERVER = 'https://ptuml.hackmd.io'
+
+  window.ASSET_URL = 'https://assets.hackmd.io'
+
+  window.USER_CAN_CREATE_TEAM = true
+  window.USER_CAN_DELETE_ACCOUNT = true
+  window.USER_DELETE_ACCOUNT_VIA_EMAIL = true
+  window.PAYMENT_ENABLED = true
+  window.PAYMENT_PROMOTION_BANNER_ENABLED = false
+  window.GITHUB_SYNC_ENABLED = true
+  window.GITLAB_SYNC_ENABLED = false
+  window.GITLAB_SYNC_BASE_URL = ''
+  window.VCS_SYNC_MODE = 'github'
+  window.VCS_PROVIDER_NAME = 'GitHub'
+  window.FREE_TEAM_NUM = 20
+  window.FREE_TEAM_MEMBER_NUM = 3
+  window.FREE_PUBLIC_TEAM_NUM = 10
+  
+  window.EE_SITE_ENABLE = false
+  window.EE_SITE_NAME = 'false'
+  window.EE_SITE_LINK = 'false'
+  window.EESITE_INFO = false
+  window.ENTERPRISE_DISCOVERY_ENABLE = false
+  window.ENTERPRISE_DISCOVERY_TEAM = true
+  window.ENTERPRISE_DISCOVERY_NOTE = true
+  window.ENTERPRISE_DISCOVERY_VIEW_PERMISSION = 'guest'
+  
+  window.ALLOW_ANONYMOUS = true
+  window.ALLOW_ANONYMOUS_EDIT = false
+  window.PUBLIC_OVERVIEW = false
+  window.INTERNAL_PUBLIC_OVERVIEW = false
+  window.FULL_TEXT_SEARCH_ENABLE = false
+  window.ALGOLIA_SEARCH_ENABLE = true
+  window.MARKETING_EMAIL_ENABLE = true
+  
+  window.API_MANAGEMENT_UI_ENABLE = true
+  window.FEEDBACK_UI_ENABLE = true
+
+  
+  window.SHOW_HOT_NOTES = false
+  
+
+  
+  window.HOT_NOTES_TIME_TYPE = 'week'
+  
+
+  
+  window.SHOW_OVERVIEW = false
+  
+
+  
+  window.MENTIONS = {}
+  
+
+  
+  window.MENTION_ANCHORS = []
+  
+
+  
+  window.COMMENT_ANCHORS = []
+  
+
+  
+  window.IS_OWNER = false
+  
+
+  
+  window.IS_TEAM_ADMIN = false
+  
+
+  
+  window.IS_INVITEE_ADMIN = false
+  
+
+  
+  window.USER_PROFILE = {"name":"Guest White"}
+  
+
+  
+  window.VERSION_TIME = '1640109833867'
+  
+
+  
+  window.canEdit = false
+  
+
+  
+  window.canWriteComment = true
+  
+</script>
+
+
+    
+<!-- Google Tag Manager -->
+<script nonce="">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLW9Z3');</script>
+<!-- End Google Tag Manager -->
+
+
+    
+
+
+
+<meta property="fb:app_id" content="1436904003272070">
+
+
+    <meta name="twitter:image:src" content="https://i.imgur.com/d1tkvux.jpg">
+
+
+<meta name="twitter:site" content="@hackmdio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Parallel Programming @ NYCU - HW1 - HackMD">
+
+
+    <meta name="twitter:description" content="# Parallel Programming @ NYCU - HW1 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; Q1-1: Does th">
+
+
+
+    <meta property="og:image" content="https://i.imgur.com/d1tkvux.jpg">
+
+
+<meta property="og:site_name" content="HackMD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parallel Programming @ NYCU - HW1 - HackMD">
+
+
+    <meta property="og:description" content="# Parallel Programming @ NYCU - HW1 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; Q1-1: Does th">
+
+
+    <link rel="stylesheet" href="./Parallel Programming @ NYCU - HW1 - HackMD_files/emojify.min.css">
+     <link href="./Parallel Programming @ NYCU - HW1 - HackMD_files/font-vendor.2faf3ffac7f75fe112b7.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW1 - HackMD_files/common-vendor.017f3a98adc3881767cb.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW1 - HackMD_files/pretty-vendor.163c8115660d5ee6132e.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW1 - HackMD_files/pretty.b4a9b06f618e35f08eec.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+<![endif]-->
+
+<style id="googleidentityservice_button_styles" nonce="">.qJTHM{-webkit-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:"Roboto-Regular",arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{word-break:break-all}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-uaxL4e{-webkit-border-radius:10px;border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf,.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u>div:nth-child(1){background-color:#1a73e8!important}.P1ekSe-ZMv3u>div:nth-child(2),.P1ekSe-ZMv3u>div:nth-child(3){background-image:linear-gradient(to right,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(to right,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{-webkit-border-radius:4px;border-radius:4px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-webkit-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:"Google Sans",arial,sans-serif;font-size:14px;height:40px;letter-spacing:0.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:14px;height:32px;letter-spacing:0.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:11px;height:20px;letter-spacing:0.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{-webkit-border-radius:20px;border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{-webkit-border-radius:16px;border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{-webkit-border-radius:10px;border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-top-left-radius:3px;border-top-left-radius:3px;-webkit-border-bottom-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;justify-content:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:3px;border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:18px;border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:14px;border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:8px;border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-flex-direction:row;flex-direction:row;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;flex-grow:1;font-family:"Google Sans",arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:hover,.nsm7Bb-HzV7m-LgbsSe:focus{-webkit-box-shadow:none;box-shadow:none;border-color:#d2e3fc;outline:none}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.04)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{-webkit-border-radius:50%;border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:"Roboto";font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-top-left-radius:0;border-top-left-radius:0;-webkit-border-bottom-left-radius:0;border-bottom-left-radius:0;-webkit-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-border-bottom-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:18px;border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{-webkit-border-radius:4px;border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style><style>::-moz-focus-inner{border:0 !important;}:focus,.focus{outline: none !important;}</style><style></style><link rel="stylesheet" type="text/css" href="./Parallel Programming @ NYCU - HW1 - HackMD_files/fretboard.26d5e78e694dfbd67fb7.css"><link id="googleidentityservice" type="text/css" media="all" rel="stylesheet" href="./Parallel Programming @ NYCU - HW1 - HackMD_files/style"></head>
+
+<body style="">
+    <div class="ui-infobar container-fluid unselectable hidden-print comment-enabled">
+        <div class="row">
+            <div class="col-xs-12 ui-infobar-inner">
+                <div class="ui-infobar__user-info">
+                    <ul class="list-inline">
+                        <li>
+                            
+                                <span class="ui-lastchangeuser" data-profile="chungmin-yu"> <a class="ui-user-icon small user-card-popover" style="background-image: url(https://i.imgur.com/d1tkvux.jpg);" target="_blank" href="https://hackmd.io/@chungmin-yu" data-toggle="popover" data-original-title="" title=""></a></span>
+                            
+                            &nbsp;<span class="text-uppercase ui-status-lastchange" title="2021年12月22日星期三 02:03">變更於 10 個月前</span>
+                            <span class="ui-lastchange text-uppercase" data-createtime="Sun Oct 03 2021 17:01:04 GMT+0000 (Coordinated Universal Time)" data-updatetime="Tue Dec 21 2021 18:03:53 GMT+0000 (Coordinated Universal Time)"></span>
+                        </li>
+                        
+                        
+                        <li>
+                            <span class="ui-more-info" data-toggle="popover" data-original-title="" title="">
+                                 <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+                                <div class="more-info-raw hmd-dn">
+                                    <span class="ui-published-note note-status-row hmd-db">
+                                        <i class="fa fa-globe" aria-hidden="true" style="margin-top: 1px;"></i>
+                                        公開筆記
+                                    </span>
+
+                                    <span class="ui-connectedGithub note-status-row hmd-dn">
+                                        <i class="fa fa-20 ui-connectedGithubIcon fa-github"></i>
+
+                                        <span>與 GitHub 同步</span>
+
+                                        <br>
+
+                                        <a class="file-path" target="_blank"></a>
+                                    </span>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hmd-text-right ui-infobar__actions">
+                    <ul class="list-inline">
+                        <li>
+                            
+                                <a class="ui-signin community-button hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#"><span class="text"><i class="fa fa-fw fa-heart-o"></i>讚賞<span class="count"></span></span></a>
+                                <a class="ui-signin community-button hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#"><span class="text"><i class="fa fa-fw fa-bookmark-o"></i>收藏</span></a>
+                                <a class="ui-signin community-button hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#"><span class="text"><i class="fa fa-fw fa-bell-o"></i>訂閱</span></a>
+                            
+                        </li>
+                        
+                    </ul>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <div class="ui-comment-app hidden md:block" id="hackmd-app" style="right: -45px; width: 45px;">
+            <div id="comment-app"><div class="open-comments"><div><button class="ui-open-comments btn btn-default"><i class="fa fa-commenting" aria-hidden="true"></i><span class="text">0 篇留言</span></button></div><div style="display: none;"><div class="comment-settings" id="comment-settings"><img src="./Parallel Programming @ NYCU - HW1 - HackMD_files/comments-settings.svg" style="margin-right: 5px;"><div>留言設定</div></div></div></div><div class="comments-scroller"><div class="comments-containers"></div></div></div>
+        </div>
+        
+    </div>
+
+    <!-- Markdown rendered container -->
+    <div id="doc" class="container-fluid markdown-body comment-enabled" data-hard-breaks="true"><h1 class="part" data-startline="1" data-endline="1" id="Parallel-Programming--NYCU---HW1" data-id="Parallel-Programming--NYCU---HW1"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#Parallel-Programming--NYCU---HW1" title="Parallel-Programming--NYCU---HW1" smoothhashscroll=""><span class="octicon octicon-link"></span></a><span data-position="2" data-size="33">Parallel Programming @ NYCU - HW1</span></h1><h4 class="part" data-startline="2" data-endline="2" id="0716221-余忠旻" data-id="0716221-余忠旻"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221-余忠旻" smoothhashscroll=""><span class="octicon octicon-link"></span></a><strong data-position="41" data-size="0"><code data-position="44" data-size="11">0716221 余忠旻</code></strong></h4><h3 class="part" data-startline="4" data-endline="4" id="-Q1-1-Does-the-vector-utilization-increase-decrease-or-stay-the-same-as-VECTOR_WIDTH-changes-Why" data-id="-Q1-1-Does-the-vector-utilization-increase-decrease-or-stay-the-same-as-VECTOR_WIDTH-changes-Why"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q1-1-Does-the-vector-utilization-increase-decrease-or-stay-the-same-as-VECTOR_WIDTH-changes-Why" title="-Q1-1-Does-the-vector-utilization-increase-decrease-or-stay-the-same-as-VECTOR_WIDTH-changes-Why" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="86" data-size="99"> Q1-1: Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</span></font></h3><font color="#3CB371">
+</font><pre class="part" data-startline="7" data-endline="18" data-position="196"><code>CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              2
+Total Vector Instructions: 162728
+Vector Utilization:        83.0%
+Utilized Vector Lanes:     270116
+Total Vector Lanes:        325456
+************************ Result Verification *************************
+ClampedExp Passed!!!
+</code></pre><pre class="part" data-startline="20" data-endline="31" data-position="589"><code>CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              4
+Total Vector Instructions: 94576
+Vector Utilization:        77.7%
+Utilized Vector Lanes:     294040
+Total Vector Lanes:        378304
+************************ Result Verification *************************
+ClampedExp Passed!!!
+</code></pre><pre class="part" data-startline="33" data-endline="44" data-position="981"><code>CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              8
+Total Vector Instructions: 51628
+Vector Utilization:        75.1%
+Utilized Vector Lanes:     310086
+Total Vector Lanes:        413024
+************************ Result Verification *************************
+ClampedExp Passed!!!
+</code></pre><pre class="part" data-startline="46" data-endline="57" data-position="1373"><code>CLAMPED EXPONENT (required)
+Results matched with answer!
+****************** Printing Vector Unit Statistics *******************
+Vector Width:              16
+Total Vector Instructions: 26968
+Vector Utilization:        73.9%
+Utilized Vector Lanes:     318732
+Total Vector Lanes:        431488
+************************ Result Verification *************************
+ClampedExp Passed!!!
+</code></pre><div class="alert alert-info part" data-startline="58" data-endline="59" data-position="1765" data-size="52">
+<p data-position="1773" data-size="0"><span data-position="1773" data-size="40">A1-1: VECTORWIDTH變大，vector utilization下降</span></p>
+</div><p class="part" data-startline="62" data-endline="63" data-position="1819" data-size="0"><span data-position="1819" data-size="16">從logger.cpp可以看出 </span><code data-position="1836" data-size="59">Vector Utilization = stats.utilized_lane / stats.total_lane</code><br>
+<span data-position="1897" data-size="64">在我的vectorOP.cpp中，不同VECTOR_WIDTH影響utilized_lane和total_lane數目差異主要有兩點:</span></p><ul class="part" data-startline="65" data-endline="83">
+<li class="" data-startline="65" data-endline="67" data-position="1968" data-size="0">
+<ol data-position="1968" data-size="0">
+<li class="" data-startline="65" data-endline="67" data-position="1971" data-size="0"><span data-position="1971" data-size="37">在一開始初始常數vector時會有差異 (vset) -&gt; 這不是影響關鍵</span><br>
+<span data-position="2009" data-size="38">因為VECTOR_WIDTH不同所以常數設的utilized_lane數目會不同</span></li>
+</ol>
+</li>
+<li class="" data-startline="68" data-endline="83" data-position="2053" data-size="0">
+<ol start="2" data-position="2053" data-size="0">
+<li class="" data-startline="68" data-endline="83" data-position="2056" data-size="0"><code data-position="2057" data-size="29">_pp_cntbits(__pp_mask &amp;maska)</code><span data-position="2087" data-size="10"> -&gt; 主要影響關鍵</span><br>
+<span data-position="2098" data-size="20">這是計算mask中有幾個lanes值是1</span><br>
+<span data-position="2120" data-size="18">當所有lanes值為0就可以跳出迴圈</span><br>
+<span data-position="2139" data-size="36">這時不同VECTORWIDTH會影響while迴圈離開的早晚(執行次數)</span><br>
+<span data-position="2177" data-size="4">e.g.</span><br>
+<span data-position="2182" data-size="21">假如VECTORWIDTH=8的mask:</span><code data-position="2204" data-size="15">_ _ _ _ _ * * _</code><br>
+<span data-position="2221" data-size="21">那麼VECTORWIDTH=4的mask:</span><code data-position="2243" data-size="7">_ _ _ _</code><span data-position="2251" data-size="3"> 和 </span><code data-position="2255" data-size="7">_ * * _</code><span data-position="2263" data-size="8">(分開兩次執行)</span><br>
+<span data-position="2272" data-size="32">這時就可以觀察到VECTORWIDTH=8不能跳出while迴圈</span><br>
+<code data-position="2306" data-size="31">_pp_vmult_float // result *= x;</code><br>
+<code data-position="2340" data-size="26">_pp_vsub_int   // count--;</code><br>
+<span data-position="2368" data-size="51">這兩個指令就會在while迴圈執行，但vector utilization很低(lanes值大多為0)</span><br>
+<span data-position="2420" data-size="28">導致拉低total vector utilization</span><br>
+<span data-position="2449" data-size="33">而VECTORWIDTH=4前面的可以跳出while迴圈 後面不行</span><br>
+<span data-position="2483" data-size="34">這樣前面的就能避免使用vector utilization很低的指令</span><br>
+<span data-position="2518" data-size="37">因此VECTORWIDTH較小的會vector utilization較高</span></li>
+</ol>
+</li>
+</ul><hr><h3 class="part" data-startline="87" data-endline="87" id="-Q2-1-Fix-the-code-to-make-sure-it-uses-aligned-moves-for-the-best-performance" data-id="-Q2-1-Fix-the-code-to-make-sure-it-uses-aligned-moves-for-the-best-performance"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-1-Fix-the-code-to-make-sure-it-uses-aligned-moves-for-the-best-performance" title="-Q2-1-Fix-the-code-to-make-sure-it-uses-aligned-moves-for-the-best-performance" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="2589" data-size="80"> Q2-1: Fix the code to make sure it uses aligned moves for the best performance.</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="88" data-endline="89" data-position="2670" data-size="0"><font color="#3CB371"><span data-position="2670" data-size="49">Hint: we want to see vmovaps rather than vmovups.</span><br>
+</font></p><p class="part" data-startline="91" data-endline="94" data-position="2729" data-size="0"><span data-position="2729" data-size="12">這是還沒修改過的code</span><br>
+<span data-position="2742" data-size="1">從</span><code data-position="2744" data-size="36">ssembly/test1.vec.restr.align.avx2.s</code><span data-position="2781" data-size="16">中可以看見使用 AVX2 指令後</span><br>
+<code data-position="2799" data-size="3">mov</code><span data-position="2803" data-size="3"> 至 </span><code data-position="2807" data-size="3">ymm</code><span data-position="2811" data-size="23"> register 的單位是 32 bytes</span><br>
+<span data-position="2835" data-size="26">因此推測 AVX2 指令一次會處理 32 bytes</span></p><pre class="part" data-startline="98" data-endline="118" data-position="2865"><code>......
+
+.LBB0_3:                                #   Parent Loop BB0_2 Depth=1
+                                        # =&gt;  This Inner Loop Header: Depth=2
+        vmovups (%rbx,%rcx,4), %ymm0
+        vmovups 32(%rbx,%rcx,4), %ymm1
+        vmovups 64(%rbx,%rcx,4), %ymm2
+        vmovups 96(%rbx,%rcx,4), %ymm3
+        vaddps  (%r15,%rcx,4), %ymm0, %ymm0
+        vaddps  32(%r15,%rcx,4), %ymm1, %ymm1
+        vaddps  64(%r15,%rcx,4), %ymm2, %ymm2
+        vaddps  96(%r15,%rcx,4), %ymm3, %ymm3
+        vmovups %ymm0, (%r14,%rcx,4)
+        vmovups %ymm1, 32(%r14,%rcx,4)
+        vmovups %ymm2, 64(%r14,%rcx,4)
+        vmovups %ymm3, 96(%r14,%rcx,4)
+        addq    $32, %rcx
+
+......
+</code></pre><h4 class="part" data-startline="120" data-endline="120" id="在-Intel®-Advanced-Vector-Extensions-Programming-Reference-中" data-id="在-Intel®-Advanced-Vector-Extensions-Programming-Reference-中"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#%E5%9C%A8-Intel%C2%AE-Advanced-Vector-Extensions-Programming-Reference-%E4%B8%AD" title="在-Intel®-Advanced-Vector-Extensions-Programming-Reference-中" smoothhashscroll=""><span class="octicon octicon-link"></span></a><span data-position="3559" data-size="2">在 </span><font color="#4682B4" size="4"><span data-position="3590" data-size="57"> Intel® Advanced Vector Extensions Programming Reference </span></font><span data-position="3654" data-size="2"> 中</span></h4><p class="part" data-startline="122" data-endline="123" data-position="3658" data-size="0"><img src="./Parallel Programming @ NYCU - HW1 - HackMD_files/3VahXsK.jpg" alt="" class="" data-position="3658" data-size="36" loading="lazy"><br>
+<img src="./Parallel Programming @ NYCU - HW1 - HackMD_files/cs391KH.jpg" alt="" class="" data-position="3695" data-size="36" loading="lazy"></p><p class="part" data-startline="125" data-endline="127" data-position="3733" data-size="0"><span data-position="3733" data-size="22">Table 2-4, Table 2-5寫到</span><br>
+<code data-position="3757" data-size="17">VMOVAPS m256, ymm</code><span data-position="3775" data-size="3"> , </span><code data-position="3779" data-size="17">VMOVAPS ymm, m256</code><span data-position="3797" data-size="26"> Require 32-byte alignment</span><br>
+<code data-position="3825" data-size="17">VMOVUPS m256, ymm</code><span data-position="3843" data-size="3"> , </span><code data-position="3847" data-size="17">VMOVUPS ymm, m256</code><span data-position="3865" data-size="40"> Not Requiring Explicit Memory Alignment</span></p><p class="part" data-startline="129" data-endline="130" data-position="3908" data-size="0"><span data-position="3908" data-size="25">因此要讓它alignment是需要32-byte的</span><br>
+<span data-position="3934" data-size="13">我將code fix完如下</span></p><div class="alert alert-info part" data-startline="132" data-endline="146" data-position="3949" data-size="375">
+<pre><code>void test(float* __restrict a, float* __restrict b, float* __restrict c, int N) {
+  __builtin_assume(N == 1024);
+  a = (float *)__builtin_assume_aligned(a, 32);
+  b = (float *)__builtin_assume_aligned(b, 32);
+  c = (float *)__builtin_assume_aligned(c, 32);
+  
+  for (int i=0; i&lt;I; i++) {
+    for (int j=0; j&lt;N; j++) {
+      c[j] = a[j] + b[j];
+    }
+  }
+}
+</code></pre>
+</div><hr><h3 class="part" data-startline="150" data-endline="150" id="-Q2-2-What-speedup-does-the-vectorized-code-achieve-over-the-unvectorized-code-What-additional-speedup-does-using--mavx2-give-AVX21-in-the-Makefile-You-may-wish-to-run-this-experiment-several-times-and-take-median-elapsed-times-you-can-report-answers-to-the-nearest-100-eg-2×-3×-etc-What-can-you-infer-about-the-bit-width-of-the-default-vector-registers-on-the-PP-machines-What-about-the-bit-width-of-the-AVX2-vector-registers" data-id="-Q2-2-What-speedup-does-the-vectorized-code-achieve-over-the-unvectorized-code-What-additional-speedup-does-using--mavx2-give-AVX21-in-the-Makefile-You-may-wish-to-run-this-experiment-several-times-and-take-median-elapsed-times-you-can-report-answers-to-the-nearest-100-eg-2×-3×-etc-What-can-you-infer-about-the-bit-width-of-the-default-vector-registers-on-the-PP-machines-What-about-the-bit-width-of-the-AVX2-vector-registers"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-2-What-speedup-does-the-vectorized-code-achieve-over-the-unvectorized-code-What-additional-speedup-does-using--mavx2-give-AVX21-in-the-Makefile-You-may-wish-to-run-this-experiment-several-times-and-take-median-elapsed-times-you-can-report-answers-to-the-nearest-100-eg-2%C3%97-3%C3%97-etc-What-can-you-infer-about-the-bit-width-of-the-default-vector-registers-on-the-PP-machines-What-about-the-bit-width-of-the-AVX2-vector-registers" title="-Q2-2-What-speedup-does-the-vectorized-code-achieve-over-the-unvectorized-code-What-additional-speedup-does-using--mavx2-give-AVX21-in-the-Makefile-You-may-wish-to-run-this-experiment-several-times-and-take-median-elapsed-times-you-can-report-answers-to-the-nearest-100-eg-2×-3×-etc-What-can-you-infer-about-the-bit-width-of-the-default-vector-registers-on-the-PP-machines-What-about-the-bit-width-of-the-AVX2-vector-registers" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="4356" data-size="444"> Q2-2: What speedup does the vectorized code achieve over the unvectorized code? What additional speedup does using -mavx2 give (AVX2=1 in the Makefile)? You may wish to run this experiment several times and take median elapsed times; you can report answers to the nearest 100% (e.g., 2×, 3×, etc). What can you infer about the bit width of the default vector registers on the PP machines? What about the bit width of the AVX2 vector registers.</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="152" data-endline="153" data-position="4802" data-size="0"><font color="#3CB371"><span data-position="4802" data-size="131">Hint: Aside from speedup and the vectorization report, the most relevant information is that the data type for each array is float.</span><br>
+</font></p><p class="part" data-startline="155" data-endline="156" data-position="4943" data-size="0"><span data-position="4943" data-size="6">我寫了一個 </span><code data-position="4950" data-size="12">calculate.sh</code><span data-position="4963" data-size="28"> 的 shell script 檔來執行 make 完的</span><code data-position="4992" data-size="19">test_auto_vectorize</code><span data-position="5012" data-size="14"> 100次並計算平均花費時間</span><br>
+<span data-position="5027" data-size="3">=&gt; </span><code data-position="5031" data-size="20">./calculate.sh 1 100</code></p><pre class="part" data-startline="158" data-endline="169" data-position="5054"><code class="shell hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span></div><div class="code">total=0;
+for i in `seq 1 $2`;
+do
+        second=`./test_auto_vectorize -t $1 | awk 'BEGIN{FS="sec"} NR==3{print $1}'`;
+        total=`echo "$total+$second" | bc -l`;
+done
+median=`echo "scale=5; $total/$2" | bc -l`;
+echo "Running test$1()...";
+echo "Median elapsed execution time of the loop in test$1():";
+echo "$median sec (N: 1024, I: 20000000)";
+</div></div></code></pre><ul class="part" data-startline="171" data-endline="171">
+<li class="" data-startline="171" data-endline="171" data-position="5420" data-size="0"><span data-position="5420" data-size="17">unvectorized code</span></li>
+</ul><pre class="part" data-startline="172" data-endline="176" data-position="5438"><code>Running test1()...
+Median elapsed execution time of the loop in test1():
+8.29187 sec (N: 1024, I: 20000000)
+</code></pre><ul class="part" data-startline="178" data-endline="178">
+<li class="" data-startline="178" data-endline="178" data-position="5557" data-size="0"><span data-position="5557" data-size="15">vectorized code</span></li>
+</ul><pre class="part" data-startline="179" data-endline="183" data-position="5573"><code>Running test1()...
+Median elapsed execution time of the loop in test1():
+2.66687 sec (N: 1024, I: 20000000)
+</code></pre><ul class="part" data-startline="185" data-endline="185">
+<li class="" data-startline="185" data-endline="185" data-position="5692" data-size="0"><span data-position="5692" data-size="17">AVX2 code (using </span><code data-position="5710" data-size="6">-mavx2</code><span data-position="5717" data-size="1">)</span></li>
+</ul><pre class="part" data-startline="186" data-endline="190" data-position="5719"><code>Running test1()...
+Median elapsed execution time of the loop in test1():
+1.40782 sec (N: 1024, I: 20000000)
+</code></pre><h4 class="part" data-startline="192" data-endline="192" id="-vectorized-code-vs-unvectorized-code" data-id="-vectorized-code-vs-unvectorized-code"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-vectorized-code-vs-unvectorized-code" title="-vectorized-code-vs-unvectorized-code" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#082567" size="4"><span data-position="5870" data-size="38"> vectorized code vs. unvectorized code</span></font></h4><div class="alert alert-info part" data-startline="194" data-endline="195" data-position="5917" data-size="77">
+<p data-position="5925" data-size="0"><span data-position="5925" data-size="65">執行 100 次後計算平均花費時間得出，vectorized code 比 unvectorized code 快了約3.109倍</span></p>
+</div><h4 class="part" data-startline="198" data-endline="198" id="-AVX2-code-using--mavx2-vs-unvectorized-code" data-id="-AVX2-code-using--mavx2-vs-unvectorized-code"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-AVX2-code-using--mavx2-vs-unvectorized-code" title="-AVX2-code-using--mavx2-vs-unvectorized-code" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#082567" size="4"><span data-position="6030" data-size="18"> AVX2 code (using </span><code data-position="6049" data-size="6">-mavx2</code><span data-position="6056" data-size="23">) vs. unvectorized code</span></font></h4><div class="alert alert-info part" data-startline="200" data-endline="201" data-position="6088" data-size="87">
+<p data-position="6096" data-size="0"><span data-position="6096" data-size="37">執行 100 次後計算平均花費時間得出，AVX2 code (using </span><code data-position="6134" data-size="6">-mavx2</code><span data-position="6141" data-size="30">) 比 unvectorized code 快了5.890倍</span></p>
+</div><h4 class="part" data-startline="204" data-endline="204" id="the-bit-width-of-the-default-vector-registers-on-the-PP-machines" data-id="the-bit-width-of-the-default-vector-registers-on-the-PP-machines"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#the-bit-width-of-the-default-vector-registers-on-the-PP-machines" title="the-bit-width-of-the-default-vector-registers-on-the-PP-machines" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#082567" size="4"><span data-position="6211" data-size="64">the bit width of the default vector registers on the PP machines</span></font></h4><p class="part" data-startline="205" data-endline="205" data-position="6283" data-size="0"><span data-position="6283" data-size="1">從</span><code data-position="6285" data-size="31">ssembly/test1.vec.restr.align.s</code><span data-position="6317" data-size="5">中可以看見</span></p><pre class="part" data-startline="209" data-endline="229" data-position="6333"><code>......
+
+.LBB0_3:                                #   Parent Loop BB0_2 Depth=1
+                                        # =&gt;  This Inner Loop Header: Depth=2
+        movaps  (%rbx,%rcx,4), %xmm0
+        movaps  16(%rbx,%rcx,4), %xmm1
+        addps   (%r15,%rcx,4), %xmm0
+        addps   16(%r15,%rcx,4), %xmm1
+        movaps  %xmm0, (%r14,%rcx,4)
+        movaps  %xmm1, 16(%r14,%rcx,4)
+        movaps  32(%rbx,%rcx,4), %xmm0
+        movaps  48(%rbx,%rcx,4), %xmm1
+        addps   32(%r15,%rcx,4), %xmm0
+        addps   48(%r15,%rcx,4), %xmm1
+        movaps  %xmm0, 32(%r14,%rcx,4)
+        movaps  %xmm1, 48(%r14,%rcx,4)
+        addq    $16, %rcx
+        
+......
+</code></pre><div class="alert alert-info part" data-startline="231" data-endline="235" data-position="7002" data-size="220">
+<p data-position="7010" data-size="0"><span data-position="7010" data-size="18">default vector 在做 </span><code data-position="7029" data-size="3">mov</code><span data-position="7033" data-size="1"> </span><code data-position="7035" data-size="3">add</code><span data-position="7039" data-size="15"> 都是一次處理 16-byte</span><br>
+<span data-position="7055" data-size="5">可以推測 </span><code data-position="7061" data-size="3">xmm</code><span data-position="7065" data-size="31"> register 的 bit width 為 16-byte</span><br>
+<span data-position="7097" data-size="67">下面 MOVAPS指令說明 也描述 the operand must be aligned on a 16-byte boundary</span><br>
+<span data-position="7165" data-size="53">因此PP machines預設的 vector registers 為 128-bit (16-byte)</span></p>
+</div><p class="part" data-startline="238" data-endline="238" data-position="7224" data-size="0"><img src="./Parallel Programming @ NYCU - HW1 - HackMD_files/5XvIzRK.jpg" alt="" class="" data-position="7224" data-size="36" loading="lazy"></p><h4 class="part" data-startline="239" data-endline="239" id="the-bit-width-of-the-AVX2-vector-registers" data-id="the-bit-width-of-the-AVX2-vector-registers"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#the-bit-width-of-the-AVX2-vector-registers" title="the-bit-width-of-the-AVX2-vector-registers" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#082567" size="4"><span data-position="7295" data-size="42">the bit width of the AVX2 vector registers</span></font></h4><p class="part" data-startline="241" data-endline="241" data-position="7346" data-size="0"><span data-position="7346" data-size="6">從修改過後的</span><code data-position="7353" data-size="31">ssembly/test1.vec.restr.align.s</code><span data-position="7385" data-size="5">中可以看見</span></p><pre class="part" data-startline="243" data-endline="263" data-position="7392"><code>......
+
+.LBB0_3:                                #   Parent Loop BB0_2 Depth=1
+                                        # =&gt;  This Inner Loop Header: Depth=2
+        vmovaps (%rbx,%rcx,4), %ymm0
+        vmovaps 32(%rbx,%rcx,4), %ymm1
+        vmovaps 64(%rbx,%rcx,4), %ymm2
+        vmovaps 96(%rbx,%rcx,4), %ymm3
+        vaddps  (%r15,%rcx,4), %ymm0, %ymm0
+        vaddps  32(%r15,%rcx,4), %ymm1, %ymm1
+        vaddps  64(%r15,%rcx,4), %ymm2, %ymm2
+        vaddps  96(%r15,%rcx,4), %ymm3, %ymm3
+        vmovaps %ymm0, (%r14,%rcx,4)
+        vmovaps %ymm1, 32(%r14,%rcx,4)
+        vmovaps %ymm2, 64(%r14,%rcx,4)
+        vmovaps %ymm3, 96(%r14,%rcx,4)
+        addq    $32, %rcx
+        
+......
+</code></pre><div class="alert alert-info part" data-startline="265" data-endline="269" data-position="8089" data-size="254">
+<p data-position="8097" data-size="0"><code data-position="8098" data-size="3">mov</code><span data-position="8102" data-size="1"> </span><code data-position="8104" data-size="3">add</code><span data-position="8108" data-size="17"> 指令都是一次處理 32-byte</span><br>
+<span data-position="8126" data-size="35">從 Q2-1 結論得到 AVX2 指令須對齊 32-byte — </span><font size="3"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#%E5%9C%A8-Intel%C2%AE-Advanced-Vector-Extensions-Programming-Reference-%E4%B8%AD" smoothhashscroll=""><span data-position="8175" data-size="25">Intel Reference Table 2-4</span></a></font><br>
+<span data-position="8271" data-size="6">可以推測出 </span><code data-position="8278" data-size="3">ymm</code><span data-position="8282" data-size="56"> register (AVX2 register)的 bit width 為 256-bit (32-byte)</span></p>
+</div><hr><h3 class="part" data-startline="274" data-endline="274" id="-run-test2-and-test3-" data-id="-run-test2-and-test3-"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-run-test2-and-test3-" title="-run-test2-and-test3-" smoothhashscroll=""><span class="octicon octicon-link"></span></a><strong data-position="8354" data-size="0"><font color="#4682B4" size="4"><span data-position="8385" data-size="1"> </span><ins><span data-position="8388" data-size="23">run test2() and test3()</span></ins><span data-position="8413" data-size="1"> </span></font></strong></h3><h4 class="part" data-startline="276" data-endline="276" id="Before-fixing-the-vectorization-issues-in-Section-26" data-id="Before-fixing-the-vectorization-issues-in-Section-26"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#Before-fixing-the-vectorization-issues-in-Section-26" title="Before-fixing-the-vectorization-issues-in-Section-26" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#082567" size="4"><span data-position="8459" data-size="54">Before fixing the vectorization issues in Section 2.6.</span></font></h4><ul class="part" data-startline="279" data-endline="281">
+<li class="" data-startline="279" data-endline="281" data-position="8525" data-size="0"><span data-position="8525" data-size="5">test2</span><br>
+<span data-position="8531" data-size="3">=&gt; </span><code data-position="8535" data-size="30">make clean &amp;&amp; make VECTORIZE=1</code><br>
+<span data-position="8567" data-size="3">=&gt; </span><code data-position="8571" data-size="20">./calculate.sh 2 100</code></li>
+</ul><pre class="part" data-startline="282" data-endline="286" data-position="8593"><code>Running test2()...
+Median elapsed execution time of the loop in test2():
+11.45136 sec (N: 1024, I: 20000000)
+</code></pre><ul class="part" data-startline="288" data-endline="290">
+<li class="" data-startline="288" data-endline="290" data-position="8713" data-size="0"><span data-position="8713" data-size="5">test3</span><br>
+<span data-position="8719" data-size="3">=&gt; </span><code data-position="8723" data-size="30">make clean &amp;&amp; make VECTORIZE=1</code><br>
+<span data-position="8755" data-size="3">=&gt; </span><code data-position="8759" data-size="20">./calculate.sh 3 100</code></li>
+</ul><pre class="part" data-startline="291" data-endline="295" data-position="8781"><code>Running test3()...
+Median elapsed execution time of the loop in test3():
+21.92341 sec (N: 1024, I: 20000000)
+</code></pre><h4 class="part" data-startline="297" data-endline="297" id="After-fixing-the-vectorization-issues-in-Section-26" data-id="After-fixing-the-vectorization-issues-in-Section-26"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#After-fixing-the-vectorization-issues-in-Section-26" title="After-fixing-the-vectorization-issues-in-Section-26" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#082567" size="4"><span data-position="8933" data-size="53">After fixing the vectorization issues in Section 2.6.</span></font></h4><ul class="part" data-startline="299" data-endline="301">
+<li class="" data-startline="299" data-endline="301" data-position="8997" data-size="0"><span data-position="8997" data-size="5">test2</span><br>
+<span data-position="9003" data-size="3">=&gt; </span><code data-position="9007" data-size="30">make clean &amp;&amp; make VECTORIZE=1</code><br>
+<span data-position="9039" data-size="3">=&gt; </span><code data-position="9043" data-size="20">./calculate.sh 2 100</code></li>
+</ul><pre class="part" data-startline="302" data-endline="306" data-position="9065"><code>Running test2()...
+Median elapsed execution time of the loop in test2():
+2.62391 sec (N: 1024, I: 20000000)
+</code></pre><ul class="part" data-startline="308" data-endline="310">
+<li class="" data-startline="308" data-endline="310" data-position="9184" data-size="0"><span data-position="9184" data-size="5">test3</span><br>
+<span data-position="9190" data-size="3">=&gt; </span><code data-position="9194" data-size="41">make clean &amp;&amp; make VECTORIZE=1 FASTMATH=1</code><br>
+<span data-position="9237" data-size="3">=&gt; </span><code data-position="9241" data-size="20">./calculate.sh 3 100</code></li>
+</ul><pre class="part" data-startline="311" data-endline="315" data-position="9263"><code>Running test3()...
+Median elapsed execution time of the loop in test3():
+5.54775 sec (N: 1024, I: 20000000)
+</code></pre><hr><h3 class="part" data-startline="318" data-endline="318" id="-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly" data-id="-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly" title="-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="9410" data-size="91"> Q2-3: Provide a theory for why the compiler is generating dramatically different assembly.</span></font></h3><p class="part" data-startline="320" data-endline="320" data-position="9510" data-size="0"><span data-position="9510" data-size="3">我透過</span><code data-position="9514" data-size="35">diff test2.before.vec.s test2.vec.s</code><span data-position="9550" data-size="20">指令觀察fixed前後的assemble</span></p><pre class="part" data-startline="321" data-endline="367" data-position="9571"><code class="hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span></div><div class="code">Before fixed:
+......
+&lt;       movl    (%r15,%rcx,4), %edx
+&lt;       movl    %edx, (%rbx,%rcx,4)
+&lt;       movss   (%r14,%rcx,4), %xmm0            # xmm0 = mem[0],zero,zero,zero
+&lt;       movd    %edx, %xmm1
+&lt;       ucomiss %xmm1, %xmm0
+&lt;       jbe     .LBB0_5
+&lt; # %bb.4:                                #   in Loop: Header=BB0_3 Depth=2
+&lt;       movss   %xmm0, (%rbx,%rcx,4)
+&lt; .LBB0_5:                                #   in Loop: Header=BB0_3 Depth=2
+&lt;       movl    4(%r15,%rcx,4), %edx
+&lt;       movl    %edx, 4(%rbx,%rcx,4)
+&lt;       movss   4(%r14,%rcx,4), %xmm0           # xmm0 = mem[0],zero,zero,zero
+&lt;       movd    %edx, %xmm1
+&lt;       ucomiss %xmm1, %xmm0
+&lt;       jbe     .LBB0_7
+&lt; # %bb.6:                                #   in Loop: Header=BB0_3 Depth=2
+&lt;       movss   %xmm0, 4(%rbx,%rcx,4)
+&lt;       jmp     .LBB0_7
+......
+-----------------------------------------
+After fixed:
+......
+&gt;       movaps  (%r15,%rcx,4), %xmm0
+&gt;       movaps  16(%r15,%rcx,4), %xmm1
+&gt;       maxps   (%rbx,%rcx,4), %xmm0
+&gt;       maxps   16(%rbx,%rcx,4), %xmm1
+&gt;       movups  %xmm0, (%r14,%rcx,4)
+&gt;       movups  %xmm1, 16(%r14,%rcx,4)
+&gt;       movaps  32(%r15,%rcx,4), %xmm0
+&gt;       movaps  48(%r15,%rcx,4), %xmm1
+&gt;       maxps   32(%rbx,%rcx,4), %xmm0
+&gt;       maxps   48(%rbx,%rcx,4), %xmm1
+&gt;       movups  %xmm0, 32(%r14,%rcx,4)
+&gt;       movups  %xmm1, 48(%r14,%rcx,4)
+&gt;       addq    $16, %rcx
+&gt;       cmpq    $1024, %rcx                     # imm = 0x400
+&gt;       jne     .LBB0_3
+&gt; # %bb.4:                                #   in Loop: Header=BB0_2 Depth=1
+&gt;       addl    $1, %eax
+&gt;       cmpl    $20000000, %eax                 # imm = 0x1312D00
+&gt;       jne     .LBB0_2
+
+......
+</div></div></code></pre><ul class="part" data-startline="370" data-endline="373">
+<li class="" data-startline="370" data-endline="370" data-position="11240" data-size="0"><a href="https://c9x.me/x86/html/file_module_x86_id_180.html" target="_blank" rel="noopener"><span data-position="11241" data-size="6">MOVAPS</span></a><span data-position="11301" data-size="58">: Move packed single-precision floating-point values from </span><code data-position="11360" data-size="5">%xmm0</code><span data-position="11366" data-size="2">, </span><code data-position="11369" data-size="5">%xmm1</code><span data-position="11375" data-size="4"> to </span><code data-position="11380" data-size="13">(%r15,%rcx,4)</code><span data-position="11394" data-size="3"> , </span><code data-position="11398" data-size="15">16(%r15,%rcx,4)</code><span data-position="11414" data-size="1">.</span></li>
+<li class="" data-startline="371" data-endline="371" data-position="11418" data-size="0"><a href="https://c9x.me/x86/html/file_module_x86_id_167.html" target="_blank" rel="noopener"><span data-position="11419" data-size="5">MAXPS</span></a><span data-position="11478" data-size="52">: Return the maximum single-precision floating-point</span></li>
+<li class="" data-startline="372" data-endline="373" data-position="11533" data-size="0"><a href="https://c9x.me/x86/html/file_module_x86_id_208.html" target="_blank" rel="noopener"><span data-position="11534" data-size="6">MOVUPS</span></a><span data-position="11594" data-size="59">: Move packed single-precision floating-point. values from </span><code data-position="11654" data-size="13">(%r14,%rcx,4)</code><span data-position="11668" data-size="3"> , </span><code data-position="11672" data-size="15">16(%r14,%rcx,4)</code><span data-position="11688" data-size="4"> to </span><code data-position="11693" data-size="5">%xmm0</code><span data-position="11699" data-size="2">, </span><code data-position="11702" data-size="5">%xmm1</code><span data-position="11708" data-size="1">.</span></li>
+</ul><div class="alert alert-info part" data-startline="374" data-endline="388" data-position="11712" data-size="336">
+<p data-position="11720" data-size="0"><span data-position="11720" data-size="34">由上面25-36行的fixed完的assembly code可以看見</span><br>
+<span data-position="11755" data-size="34">透過MOVAPS, MAXPS, MOVAPS可以對應這兩行code</span></p>
+<pre><code>if (b[j] &gt; a[j]) c[j] = b[j];
+else c[j] = a[j];
+</code></pre>
+<p data-position="11846" data-size="0"><span data-position="11846" data-size="6">也就是透過 </span><code data-position="11853" data-size="3">mov</code><span data-position="11857" data-size="8"> 指令搬進搬出 </span><code data-position="11866" data-size="3">xmm</code><span data-position="11870" data-size="9"> register</span><br>
+<span data-position="11880" data-size="4">並透過 </span><code data-position="11885" data-size="5">maxps</code><span data-position="11891" data-size="9"> 比較大小並更新 </span><code data-position="11901" data-size="3">xmm</code><span data-position="11905" data-size="9"> register</span><br>
+<span data-position="11919" data-size="21">對應的就是比較 b[j] , a[j]大小</span><br>
+<span data-position="11943" data-size="11">較大的值寫入 c[j]</span><br>
+<span data-position="11955" data-size="19">因為compiler照code順序編譯</span><br>
+<span data-position="11979" data-size="17">比較完 b[j] , a[j]大小</span><br>
+<span data-position="11999" data-size="14">c[j] 一定會被較大的更新</span><br>
+<span data-position="12014" data-size="30">所以用可以會是vectorized loop，用SIMD執行</span></p>
+</div><div class="alert alert-info part" data-startline="391" data-endline="408" data-position="12050" data-size="404">
+<p data-position="12058" data-size="0"><span data-position="12058" data-size="15">而原本的fixed前的code</span></p>
+<pre><code>c[j] = a[j];
+if (b[j] &gt; a[j]) c[j] = b[j];
+</code></pre>
+<p data-position="12125" data-size="0"><span data-position="12125" data-size="7">則是透過多個 </span><code data-position="12133" data-size="3">jbe</code><span data-position="12137" data-size="8"> 來處理if執行</span><br>
+<span data-position="12146" data-size="21">因為compiler 按照code順序編譯</span><br>
+<span data-position="12173" data-size="15">先處理 c[j] = a[j]</span><br>
+<span data-position="12189" data-size="34">之後再處理 if (b[j] &gt; a[j]) c[j] = b[j]</span><br>
+<span data-position="12226" data-size="16">但因為之後不一定會更新 c[j]</span><br>
+<span data-position="12245" data-size="41">假如 if 結果是 true，maxps將會將 b[j] 值存入 register</span><br>
+<span data-position="12289" data-size="9">之後寫入 c[j]</span><br>
+<span data-position="12301" data-size="44">可是假如 if 結果是 false，maxps將會將 a[j] 值存入 register</span><br>
+<span data-position="12348" data-size="9">但不寫入 c[j]</span><br>
+<span data-position="12360" data-size="23">這樣compiler不知道是否要寫入 c[j]</span><br>
+<span data-position="12386" data-size="40">而且 if 為 false 會浪費將 register 更新成 a[j] 的時間</span><br>
+<span data-position="12427" data-size="4">因此用 </span><code data-position="12432" data-size="3">jbe</code><span data-position="12436" data-size="14"> 來處理 if 執行不同狀況</span></p>
+</div><p class="part" data-startline="412" data-endline="414" data-position="12457" data-size="0"><span data-position="12457" data-size="30">=&gt; fixed完的code是vectorized loop</span><br>
+<span data-position="12498" data-size="16">  &nbsp; 一次可以處理多筆data</span><br>
+<span data-position="12525" data-size="15">  &nbsp; 執行速度相對就會快很多</span></p><hr></div>
+
+    <div class="document-footer container-fluid hmd-pb-2 hidden-print">
+        <hr>
+        <div class="footer hmd-flex hmd-items-center">
+    <div class="footer__published-by hmd-flex-grow-1">
+        <span>發表於</span> <strong><a href="https://hackmd.io/" target="_blank"><i class="fa fa-file-text"></i> <span class="brand">HackMD</span></a></strong>
+    </div>
+    <div class="footer__views" style="margin-right: 18px;">
+        <i class="fa fa-eye"></i> <span class="ui-viewcount" title="193">193</span>
+    </div>
+    <div class="footer__views">
+    
+        <a class="ui-signin community-button" href="https://hackmd.io/@chungmin-yu/pp-hw1#"><span><i class="fa fa-fw fa-heart-o"></i><span class="text hidden-xs">讚賞</span><span class="count"></span></span></a>
+        <a class="ui-signin community-button" href="https://hackmd.io/@chungmin-yu/pp-hw1#"><span><i class="fa fa-fw fa-bookmark-o"></i><span class="text hidden-xs">收藏</span></span></a>
+        <a class="ui-signin community-button" href="https://hackmd.io/@chungmin-yu/pp-hw1#"><span><i class="fa fa-fw fa-bell-o"></i><span class="text hidden-xs">訂閱</span></span></a>
+    
+    </div>
+</div>
+
+    </div>
+
+    <div class="ui-community unselectable hidden-print hidden-xs" style="left: 524.5px;">
+        
+            <a class="ui-signin community-button" href="https://hackmd.io/@chungmin-yu/pp-hw1#" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="讚賞"><span><i class="fa fa-fw fa-heart-o"></i><span class="count hmd-ml-2"></span></span></a>
+            <a class="ui-signin community-button" href="https://hackmd.io/@chungmin-yu/pp-hw1#" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="收藏"><span><i class="fa fa-fw fa-bookmark-o"></i></span></a>
+            <a class="ui-signin community-button" href="https://hackmd.io/@chungmin-yu/pp-hw1#" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="訂閱"><span><i class="fa fa-fw fa-bell-o"></i></span></a>
+        
+    </div>
+
+    <div class="ui-toc dropup unselectable hidden-print" style="display: none; left: 536.25px;">
+        <div class="pull-left dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="https://hackmd.io/@chungmin-yu/pp-hw1#" role="button" aria-haspopup="true" aria-expanded="false" title="目錄">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel"><div class="toc"><ul class="nav">
+<li class="active"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#Parallel-Programming--NYCU---HW1" title="Parallel Programming @ NYCU - HW1" smoothhashscroll="">Parallel Programming @ NYCU - HW1</a><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221 余忠旻" smoothhashscroll="">0716221 余忠旻</a></li>
+</ul>
+</li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q1-1-Does-the-vector-utilization-increase-decrease-or-stay-the-same-as-VECTOR_WIDTH-changes-Why" title=" Q1-1: Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?" smoothhashscroll=""> Q1-1: Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</a></li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-1-Fix-the-code-to-make-sure-it-uses-aligned-moves-for-the-best-performance" title=" Q2-1: Fix the code to make sure it uses aligned moves for the best performance." smoothhashscroll=""> Q2-1: Fix the code to make sure it uses aligned moves for the best performance.</a><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#%E5%9C%A8-Intel%C2%AE-Advanced-Vector-Extensions-Programming-Reference-%E4%B8%AD" title="在  Intel® Advanced Vector Extensions Programming Reference  中" smoothhashscroll="">在  Intel® Advanced Vector Extensions Programming Reference  中</a></li>
+</ul>
+</li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-2-What-speedup-does-the-vectorized-code-achieve-over-the-unvectorized-code-What-additional-speedup-does-using--mavx2-give-AVX21-in-the-Makefile-You-may-wish-to-run-this-experiment-several-times-and-take-median-elapsed-times-you-can-report-answers-to-the-nearest-100-eg-2%C3%97-3%C3%97-etc-What-can-you-infer-about-the-bit-width-of-the-default-vector-registers-on-the-PP-machines-What-about-the-bit-width-of-the-AVX2-vector-registers" title=" Q2-2: What speedup does the vectorized code achieve over the unvectorized code? What additional speedup does using -mavx2 give (AVX2=1 in the Makefile)? You may wish to run this experiment several times and take median elapsed times; you can report answers to the nearest 100% (e.g., 2×, 3×, etc). What can you infer about the bit width of the default vector registers on the PP machines? What about the bit width of the AVX2 vector registers." smoothhashscroll=""> Q2-2: What speedup does the vectorized code achieve over the unvectorized code? What additional speedup does using -mavx2 give (AVX2=1 in the Makefile)? You may wish to run this experiment several times and take median elapsed times; you can report answers to the nearest 100% (e.g., 2×, 3×, etc). What can you infer about the bit width of the default vector registers on the PP machines? What about the bit width of the AVX2 vector registers.</a><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-vectorized-code-vs-unvectorized-code" title=" vectorized code vs. unvectorized code" smoothhashscroll=""> vectorized code vs. unvectorized code</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-AVX2-code-using--mavx2-vs-unvectorized-code" title=" AVX2 code (using -mavx2) vs. unvectorized code" smoothhashscroll=""> AVX2 code (using -mavx2) vs. unvectorized code</a></li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#the-bit-width-of-the-default-vector-registers-on-the-PP-machines" title="the bit width of the default vector registers on the PP machines" smoothhashscroll="">the bit width of the default vector registers on the PP machines</a></li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#the-bit-width-of-the-AVX2-vector-registers" title="the bit width of the AVX2 vector registers" smoothhashscroll="">the bit width of the AVX2 vector registers</a></li>
+</ul>
+</li>
+<li class="active"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-run-test2-and-test3-" title=" run test2() and test3() " smoothhashscroll=""> run test2() and test3() </a><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#Before-fixing-the-vectorization-issues-in-Section-26" title="Before fixing the vectorization issues in Section 2.6." smoothhashscroll="">Before fixing the vectorization issues in Section 2.6.</a></li>
+<li class="active"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#After-fixing-the-vectorization-issues-in-Section-26" title="After fixing the vectorization issues in Section 2.6." smoothhashscroll="">After fixing the vectorization issues in Section 2.6.</a></li>
+</ul>
+</li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly" title=" Q2-3: Provide a theory for why the compiler is generating dramatically different assembly." smoothhashscroll=""> Q2-3: Provide a theory for why the compiler is generating dramatically different assembly.</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://hackmd.io/@chungmin-yu/pp-hw1#">全部展開</a><a class="back-to-top" href="https://hackmd.io/@chungmin-yu/pp-hw1#">回到頂部</a><a class="go-to-bottom" href="https://hackmd.io/@chungmin-yu/pp-hw1#">移至底部</a></div></ul>
+        </div>
+    </div>
+
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print affix" data-spy="affix" style="top: 88px; left: 283.5px; width: 571.5px;"><div class="toc"><ul class="nav">
+<li class="active"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#Parallel-Programming--NYCU---HW1" title="Parallel Programming @ NYCU - HW1" smoothhashscroll="">Parallel Programming @ NYCU - HW1</a><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221 余忠旻" smoothhashscroll="">0716221 余忠旻</a></li>
+</ul>
+</li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q1-1-Does-the-vector-utilization-increase-decrease-or-stay-the-same-as-VECTOR_WIDTH-changes-Why" title=" Q1-1: Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?" smoothhashscroll=""> Q1-1: Does the vector utilization increase, decrease or stay the same as VECTOR_WIDTH changes? Why?</a></li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-1-Fix-the-code-to-make-sure-it-uses-aligned-moves-for-the-best-performance" title=" Q2-1: Fix the code to make sure it uses aligned moves for the best performance." smoothhashscroll=""> Q2-1: Fix the code to make sure it uses aligned moves for the best performance.</a><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#%E5%9C%A8-Intel%C2%AE-Advanced-Vector-Extensions-Programming-Reference-%E4%B8%AD" title="在  Intel® Advanced Vector Extensions Programming Reference  中" smoothhashscroll="">在  Intel® Advanced Vector Extensions Programming Reference  中</a></li>
+</ul>
+</li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-2-What-speedup-does-the-vectorized-code-achieve-over-the-unvectorized-code-What-additional-speedup-does-using--mavx2-give-AVX21-in-the-Makefile-You-may-wish-to-run-this-experiment-several-times-and-take-median-elapsed-times-you-can-report-answers-to-the-nearest-100-eg-2%C3%97-3%C3%97-etc-What-can-you-infer-about-the-bit-width-of-the-default-vector-registers-on-the-PP-machines-What-about-the-bit-width-of-the-AVX2-vector-registers" title=" Q2-2: What speedup does the vectorized code achieve over the unvectorized code? What additional speedup does using -mavx2 give (AVX2=1 in the Makefile)? You may wish to run this experiment several times and take median elapsed times; you can report answers to the nearest 100% (e.g., 2×, 3×, etc). What can you infer about the bit width of the default vector registers on the PP machines? What about the bit width of the AVX2 vector registers." smoothhashscroll=""> Q2-2: What speedup does the vectorized code achieve over the unvectorized code? What additional speedup does using -mavx2 give (AVX2=1 in the Makefile)? You may wish to run this experiment several times and take median elapsed times; you can report answers to the nearest 100% (e.g., 2×, 3×, etc). What can you infer about the bit width of the default vector registers on the PP machines? What about the bit width of the AVX2 vector registers.</a><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-vectorized-code-vs-unvectorized-code" title=" vectorized code vs. unvectorized code" smoothhashscroll=""> vectorized code vs. unvectorized code</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-AVX2-code-using--mavx2-vs-unvectorized-code" title=" AVX2 code (using -mavx2) vs. unvectorized code" smoothhashscroll=""> AVX2 code (using -mavx2) vs. unvectorized code</a></li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#the-bit-width-of-the-default-vector-registers-on-the-PP-machines" title="the bit width of the default vector registers on the PP machines" smoothhashscroll="">the bit width of the default vector registers on the PP machines</a></li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#the-bit-width-of-the-AVX2-vector-registers" title="the bit width of the AVX2 vector registers" smoothhashscroll="">the bit width of the AVX2 vector registers</a></li>
+</ul>
+</li>
+<li class="active"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-run-test2-and-test3-" title=" run test2() and test3() " smoothhashscroll=""> run test2() and test3() </a><ul class="nav">
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#Before-fixing-the-vectorization-issues-in-Section-26" title="Before fixing the vectorization issues in Section 2.6." smoothhashscroll="">Before fixing the vectorization issues in Section 2.6.</a></li>
+<li class="active"><a href="https://hackmd.io/@chungmin-yu/pp-hw1#After-fixing-the-vectorization-issues-in-Section-26" title="After fixing the vectorization issues in Section 2.6." smoothhashscroll="">After fixing the vectorization issues in Section 2.6.</a></li>
+</ul>
+</li>
+<li class=""><a href="https://hackmd.io/@chungmin-yu/pp-hw1#-Q2-3-Provide-a-theory-for-why-the-compiler-is-generating-dramatically-different-assembly" title=" Q2-3: Provide a theory for why the compiler is generating dramatically different assembly." smoothhashscroll=""> Q2-3: Provide a theory for why the compiler is generating dramatically different assembly.</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://hackmd.io/@chungmin-yu/pp-hw1#">全部展開</a><a class="back-to-top" href="https://hackmd.io/@chungmin-yu/pp-hw1#">回到頂部</a><a class="go-to-bottom" href="https://hackmd.io/@chungmin-yu/pp-hw1#">移至底部</a></div></div>
+    
+
+    <div class="clearfix"></div>
+
+    <!-- signin modal -->
+<div class="modal fade signin-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 10px; right: 20px; position: absolute;"><span aria-hidden="true">×</span></button>
+            
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<h3>登入</h3>
+
+<form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" data-bitwarden-watching="1" novalidate="true">
+    <div class="hmd-dn"><input type="hidden" name="_csrf" value="zqBTKooE-M8Sd6iegGOUCzqmUFLUT_e443gc"></div>
+    <div class="hmd-dn"><input type="hidden" name="create_team" value="false"></div>
+    <div class="hmd-dn"><input type="hidden" name="create_paid_team" value="false"></div>
+    <div class="form-group  ">
+        <label for="email" class="control-label">Email</label>
+        <label for="inputEmail" class="control-label pull-right errors">
+            
+        </label>
+        <span class="help-block control-label with-errors pull-right" style="display: inline;"></span>
+        <div class="input-block">
+            
+                <input type="email" class="form-control" name="email" placeholder="您的 Email" required="" autocomplete="email">
+            
+            <span class="error-sign"></span>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label for="password" class="control-label">密碼</label>
+        <label for="inputPassword" class="control-label pull-right errors">
+            
+        </label>
+        <span class="help-block control-label with-errors pull-right" style="display: inline;"></span>
+        <div class="input-block">
+            <input type="password" class="form-control" name="password" placeholder="您的密碼" required="" autocomplete="current-password">
+            <span class="error-sign"></span>
+            
+                <span class="control-label pull-right" style="font-size: 13px; margin-top: 5px;"><a href="https://hackmd.io/settings/forgotPassword" style="text-decoration: underline;">忘記密碼</a></span>
+            
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-top: 15px; margin-bottom: 0px;">
+        
+            <input type="submit" class="btn btn-success btn-large disabled" formaction="https://hackmd.io/login" value="登入">
+        
+
+        
+    </div>
+</form>
+
+
+
+
+
+
+
+
+    
+        <p class="separator">或是</p>
+    
+
+    
+        <p>繼續登入，代表您同意<a href="https://hackmd.io/s/terms" target="_blank">服務條款</a>。</p>
+    
+
+    
+
+
+
+
+
+
+
+
+ 
+
+
+
+<script id="gsi-client" src="./Parallel Programming @ NYCU - HW1 - HackMD_files/client" async="" defer="" nonce=""></script>
+<script nonce="">
+    function handleCredentialResponse(response) {
+        const form = document.getElementById('sign-in-with-google-form')
+        form.children.credential.value = response.credential
+        form.children.method.value = location.href.toLowerCase() === 'https://hackmd.io/settings#general' ? 'merge' : 'login'
+        form.submit()
+    }
+    var GSI_READY = new Promise(function (resolve) {
+        function initialize () {
+            google.accounts.id.initialize({
+                client_id: '911617723593-drikdibvvn63slfd6kbqigo8ql1no55s.apps.googleusercontent.com',
+                callback: handleCredentialResponse
+            })
+            const loginPath = 'https://hackmd.io/login'
+            const joinPath = 'https://hackmd.io/join'
+            const renderButton = function () {
+                google.accounts.id.renderButton(
+                    document.getElementById('sign-in-with-google-button'),
+                    { type: 'standard', width: 250 }
+                )
+            }
+            if (location.href.toLowerCase() === loginPath || location.href.toLowerCase() === joinPath) {
+                renderButton()
+            } else {
+                $('.signin-modal').one('shown.bs.modal', function () {
+                    renderButton()
+                })
+            }
+            resolve()
+        }
+
+        window.addEventListener('load', function () { initialize() })
+    })
+</script>
+<form class="hidden" id="sign-in-with-google-form" action="https://hackmd.io/auth/google" method="post">
+    <input type="hidden" name="credential">
+    <input type="hidden" name="method">
+</form>
+ 
+
+<div class="social-buttons-container">
+    
+    <div id="sign-in-with-google-button"></div>
+    
+    
+    <a href="https://hackmd.io/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+        <i class="fa fa-facebook"></i> 透過 Facebook 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+        <i class="fa fa-twitter"></i> 透過 Twitter 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+        <i class="fa fa-github"></i> 透過 GitHub 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+        <i class="fa fa-dropbox"></i> 透過 Dropbox 登入
+    </a>
+    
+    
+    
+</div>
+
+
+
+
+
+    <div>
+        <p>第一次使用 HackMD？ <a href="https://hackmd.io/join">註冊</a></p>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+    
+    <script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/js"></script>
+    <script nonce="">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        let userid = (document.cookie.match('(^|; )userid=([^;]*)')||0)[2];
+        gtag('config', 'UA-60728495-1', {'user_id': userid});
+        
+    </script>
+
+
+    
+<script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/bundle.min.js.下載" crossorigin="anonymous"></script>
+<script nonce="">Sentry.init({ dsn: 'https://73410f1915d84abc8b2dd1f1aabd1c82@sentry.hackmd.dev/4', environment: 'production', integrations: function (intrus) { return intrus.filter(function (itr) { return itr.name !== 'TryCatch' }) } });</script>
+
+
+    
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLW9Z3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+
+    <script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/i18n.js.下載"></script>
+     <script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/font-vendor.f713c28932303455912c.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/common-vendor.5fa67d7f53b925f0505d.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/pretty-vendor.ab29655f5710763afd11.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/pretty-common.f105045e756f7bd3d15c.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW1 - HackMD_files/pretty.e86a95788bf66b2682c0.js.下載" defer="defer"></script>
+
+    
+
+
+
+<div class="ReactModalPortal"></div><div class="ReactModalPortal"></div><div class="ReactModalPortal"></div></body></html>
