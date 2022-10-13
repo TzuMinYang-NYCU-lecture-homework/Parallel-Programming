@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://hackmd.io/@chungmin-yu/pp-hw5 -->
+<html lang="zh-TW"><script async="" src="./Parallel Programming @ NYCU - HW5 - HackMD_files/gtm.js.下載"></script><script id="allow-copy_script">(function agent() {
+    let unlock = false
+    document.addEventListener('allow_copy', (event) => {
+      unlock = event.detail.unlock
+    })
+
+    const copyEvents = [
+      'copy',
+      'cut',
+      'contextmenu',
+      'selectstart',
+      'mousedown',
+      'mouseup',
+      'mousemove',
+      'keydown',
+      'keypress',
+      'keyup',
+    ]
+    const rejectOtherHandlers = (e) => {
+      if (unlock) {
+        e.stopPropagation()
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation()
+      }
+    }
+    copyEvents.forEach((evt) => {
+      document.documentElement.addEventListener(evt, rejectOtherHandlers, {
+        capture: true,
+      })
+    })
+  })()</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="csrf-token" content="CLkbErem-bkF-SpbltL1ltqtE0jU64d6MIiM">
+    
+    
+    <meta name="description" content="# Parallel Programming @ NYCU - HW5 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; Q1: What are ">
+    
+    <title>Parallel Programming @ NYCU - HW5 - HackMD</title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+	<link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+    
+<script nonce="">
+  window.domain = 'hackmd.io'
+  window.urlpath = ''
+  window.debug = false
+  window.version = '1.3.0'
+  window.brand = 'HackMD'
+
+  
+  window.NOTE_ID = 'WAQZO3_ARzuLf1h0a_rhuw'
+  
+
+  window.GOOGLE_API_KEY = 'AIzaSyCjSrqWHhmWJnoI7JlD88XDSaBgiKbaenA'
+  window.GOOGLE_CLIENT_ID = '911617723593-drikdibvvn63slfd6kbqigo8ql1no55s.apps.googleusercontent.com'
+  window.DROPBOX_APP_KEY = 'rdoizrlnkuha23r'
+  
+  window.PLANTUML_SERVER = 'https://ptuml.hackmd.io'
+
+  window.ASSET_URL = 'https://assets.hackmd.io'
+
+  window.USER_CAN_CREATE_TEAM = true
+  window.USER_CAN_DELETE_ACCOUNT = true
+  window.USER_DELETE_ACCOUNT_VIA_EMAIL = true
+  window.PAYMENT_ENABLED = true
+  window.PAYMENT_PROMOTION_BANNER_ENABLED = false
+  window.GITHUB_SYNC_ENABLED = true
+  window.GITLAB_SYNC_ENABLED = false
+  window.GITLAB_SYNC_BASE_URL = ''
+  window.VCS_SYNC_MODE = 'github'
+  window.VCS_PROVIDER_NAME = 'GitHub'
+  window.FREE_TEAM_NUM = 20
+  window.FREE_TEAM_MEMBER_NUM = 3
+  window.FREE_PUBLIC_TEAM_NUM = 10
+  
+  window.EE_SITE_ENABLE = false
+  window.EE_SITE_NAME = 'false'
+  window.EE_SITE_LINK = 'false'
+  window.EESITE_INFO = false
+  window.ENTERPRISE_DISCOVERY_ENABLE = false
+  window.ENTERPRISE_DISCOVERY_TEAM = true
+  window.ENTERPRISE_DISCOVERY_NOTE = true
+  window.ENTERPRISE_DISCOVERY_VIEW_PERMISSION = 'guest'
+  
+  window.ALLOW_ANONYMOUS = true
+  window.ALLOW_ANONYMOUS_EDIT = false
+  window.PUBLIC_OVERVIEW = false
+  window.INTERNAL_PUBLIC_OVERVIEW = false
+  window.FULL_TEXT_SEARCH_ENABLE = false
+  window.ALGOLIA_SEARCH_ENABLE = true
+  window.MARKETING_EMAIL_ENABLE = true
+  
+  window.API_MANAGEMENT_UI_ENABLE = true
+  window.FEEDBACK_UI_ENABLE = true
+
+  
+  window.SHOW_HOT_NOTES = false
+  
+
+  
+  window.HOT_NOTES_TIME_TYPE = 'week'
+  
+
+  
+  window.SHOW_OVERVIEW = true
+  
+
+  
+  window.MENTIONS = {}
+  
+
+  
+  window.MENTION_ANCHORS = []
+  
+
+  
+  window.COMMENT_ANCHORS = [["81d16f29-8b10-41c1-a2d7-6f02f72ebcfb",1243,46,1640067328340,1640067328340],["81670e3e-4228-4a21-98d7-f0d108323528",1942,46,1640067398049,1640067398049]]
+  
+
+  
+  window.IS_OWNER = false
+  
+
+  
+  window.IS_TEAM_ADMIN = false
+  
+
+  
+
+  
+  window.USER_PROFILE = {"name":"楊子民","userpath":"sam1248105","photo":"https://graph.facebook.com/3226858230677250/picture?width=96","userid":"2c7be004-f01e-46bd-b2d6-7133e2372bb8"}
+  
+
+  
+  window.VERSION_TIME = '1639512559472'
+  
+
+  
+  window.canEdit = false
+  
+
+  
+  window.canWriteComment = true
+  
+</script>
+
+
+    
+<!-- Google Tag Manager -->
+<script nonce="">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLW9Z3');</script>
+<!-- End Google Tag Manager -->
+
+
+    
+
+
+
+<meta property="fb:app_id" content="1436904003272070">
+
+
+    <meta name="twitter:image:src" content="https://i.imgur.com/d1tkvux.jpg">
+
+
+<meta name="twitter:site" content="@hackmdio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Parallel Programming @ NYCU - HW5 - HackMD">
+
+
+    <meta name="twitter:description" content="# Parallel Programming @ NYCU - HW5 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; Q1: What are ">
+
+
+
+    <meta property="og:image" content="https://i.imgur.com/d1tkvux.jpg">
+
+
+<meta property="og:site_name" content="HackMD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parallel Programming @ NYCU - HW5 - HackMD">
+
+
+    <meta property="og:description" content="# Parallel Programming @ NYCU - HW5 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; Q1: What are ">
+
+
+    <link rel="stylesheet" href="./Parallel Programming @ NYCU - HW5 - HackMD_files/emojify.min.css">
+     <link href="./Parallel Programming @ NYCU - HW5 - HackMD_files/font-vendor.2faf3ffac7f75fe112b7.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW5 - HackMD_files/common-vendor.017f3a98adc3881767cb.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW5 - HackMD_files/pretty-vendor.163c8115660d5ee6132e.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW5 - HackMD_files/pretty.b4a9b06f618e35f08eec.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+<![endif]-->
+
+<style id="googleidentityservice_button_styles" nonce="">.qJTHM{-webkit-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:"Roboto-Regular",arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{word-break:break-all}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-uaxL4e{-webkit-border-radius:10px;border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf,.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u>div:nth-child(1){background-color:#1a73e8!important}.P1ekSe-ZMv3u>div:nth-child(2),.P1ekSe-ZMv3u>div:nth-child(3){background-image:linear-gradient(to right,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(to right,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{-webkit-border-radius:4px;border-radius:4px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-webkit-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:"Google Sans",arial,sans-serif;font-size:14px;height:40px;letter-spacing:0.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:14px;height:32px;letter-spacing:0.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:11px;height:20px;letter-spacing:0.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{-webkit-border-radius:20px;border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{-webkit-border-radius:16px;border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{-webkit-border-radius:10px;border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-top-left-radius:3px;border-top-left-radius:3px;-webkit-border-bottom-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;justify-content:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:3px;border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:18px;border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:14px;border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:8px;border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-flex-direction:row;flex-direction:row;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;flex-grow:1;font-family:"Google Sans",arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:hover,.nsm7Bb-HzV7m-LgbsSe:focus{-webkit-box-shadow:none;box-shadow:none;border-color:#d2e3fc;outline:none}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.04)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{-webkit-border-radius:50%;border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:"Roboto";font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-top-left-radius:0;border-top-left-radius:0;-webkit-border-bottom-left-radius:0;border-bottom-left-radius:0;-webkit-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-border-bottom-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:18px;border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{-webkit-border-radius:4px;border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style><style></style><style></style><link rel="stylesheet" type="text/css" href="./Parallel Programming @ NYCU - HW5 - HackMD_files/fretboard.26d5e78e694dfbd67fb7.css"><link id="googleidentityservice" type="text/css" media="all" rel="stylesheet" href="./Parallel Programming @ NYCU - HW5 - HackMD_files/style"></head>
+
+<body style="">
+    <div class="ui-infobar container-fluid unselectable hidden-print comment-enabled">
+        <div class="row">
+            <div class="col-xs-12 ui-infobar-inner">
+                <div class="ui-infobar__user-info">
+                    <ul class="list-inline">
+                        <li>
+                            
+                                <span class="ui-lastchangeuser" data-profile="chungmin-yu"> <a class="ui-user-icon small user-card-popover" style="background-image: url(https://i.imgur.com/d1tkvux.jpg);" target="_blank" href="https://hackmd.io/@chungmin-yu" data-toggle="popover" data-original-title="" title=""></a></span>
+                            
+                            &nbsp;<span class="text-uppercase ui-status-lastchange" title="2021年12月15日星期三 04:09">變更於 10 個月前</span>
+                            <span class="ui-lastchange text-uppercase" data-createtime="Sun Dec 12 2021 07:55:49 GMT+0000 (Coordinated Universal Time)" data-updatetime="Tue Dec 14 2021 20:09:19 GMT+0000 (Coordinated Universal Time)"></span>
+                        </li>
+                        
+                        
+                        <li>
+                            <span class="ui-more-info" data-toggle="popover" data-original-title="" title="">
+                                 <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+                                <div class="more-info-raw hmd-dn">
+                                    <span class="ui-published-note note-status-row hmd-db">
+                                        <i class="fa fa-globe" aria-hidden="true" style="margin-top: 1px;"></i>
+                                        公開筆記
+                                    </span>
+
+                                    <span class="ui-connectedGithub note-status-row hmd-dn">
+                                        <i class="fa fa-20 ui-connectedGithubIcon fa-github"></i>
+
+                                        <span>與 GitHub 同步</span>
+
+                                        <br>
+
+                                        <a class="file-path" target="_blank"></a>
+                                    </span>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hmd-text-right ui-infobar__actions">
+                    <ul class="list-inline">
+                        <li>
+                            
+                                <span class="community-button ui-like hidden-xs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="讚賞"><i class="fa fa-fw"></i><span class="text">讚賞</span><span class="count"></span></span>
+                                <span class="community-button ui-bookmark hidden-xs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="收藏"><i class="fa fa-fw"></i><span class="text"><span class="bookmark-label">收藏</span><span class="bookmarked-label">已收藏</span></span></span>
+                                
+                                    <div class="ui-notification dropdown ">
+                                        <span id="notificationLabel" class="ui--subscribed hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <div class="ui-notification-status community-button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="訂閱">
+                                                <i class="fa fa-fw fa-bell"></i><span class="text">已訂閱<i class="fa fa-fw fa-angle-down"></i><i class="fa fa-fw fa-angle-up"></i></span>
+                                            </div>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="notificationLabel">
+                                            <li class="ui-notification-watch notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-bell fa-fw"></i><div class="info"><div class="title">所有通知</div><div class="description">當有任何變更時將會收到通知</div></div></li>
+                                            <li class="ui-notification-mention notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-at fa-fw"></i><div class="info"><div class="title">提及我</div><div class="description">當有人提及我時才會收到通知</div></div></li>
+                                            <li class="divider"></li>
+                                            <!--
+                                                <li class="ui-notification-list notification-menu-item"><span><a href="#"><i class="fa fa-list-ul fa-fw"></i>我的訂閱列表</a></span></li>
+                                            -->
+                                            <li class="ui-notification-unsubscribe notification-menu-item"><i class="fa fa-bell-slash-o fa-fw"></i>取消訂閱</li>
+                                        </ul>
+                                        <span class="ui-notification-subscribe community-button hidden-xs"><i class="fa fa-fw fa-bell-o"></i><span class="text">訂閱</span></span>
+                                    </div>
+                                
+                            
+                        </li>
+                        
+                    </ul>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <div class="ui-comment-app hidden md:block" id="hackmd-app" style="right: -45px; width: 45px;">
+            <div id="comment-app"><div class="open-comments"><div><button class="ui-open-comments btn btn-default"><i class="fa fa-commenting" aria-hidden="true"></i><span class="text">2 篇留言</span></button></div><div style="display: none;"><div class="comment-settings" id="comment-settings"><img src="./Parallel Programming @ NYCU - HW5 - HackMD_files/comments-settings.svg" style="margin-right: 5px;"><div>留言設定</div></div></div></div><div class="comments-scroller"><div class="comments-containers"><div class="ui-comment-button-container" data-top="906" style="top: 906px; width: 100%;"><div class="ui-comment-button" id="comment-1243-46"><i class="fa fa-commenting-o" aria-hidden="true"></i> 1</div></div><div class="ui-comment-button-container" data-top="1350" style="top: 1350px; width: 100%;"><div class="ui-comment-button" id="comment-1942-46"><i class="fa fa-commenting-o" aria-hidden="true"></i> 1</div></div></div></div></div>
+        </div>
+        
+    </div>
+
+    <!-- Markdown rendered container -->
+    <div id="doc" class="container-fluid markdown-body comment-enabled" data-hard-breaks="true"><h1 class="part" data-startline="1" data-endline="1" id="Parallel-Programming--NYCU---HW5" data-id="Parallel-Programming--NYCU---HW5"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw5#Parallel-Programming--NYCU---HW5" title="Parallel-Programming--NYCU---HW5" smoothhashscroll=""><span class="octicon octicon-link"></span></a><span data-position="2" data-size="33">Parallel Programming @ NYCU - HW5</span></h1><h4 class="part" data-startline="2" data-endline="2" id="0716221-余忠旻" data-id="0716221-余忠旻"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw5#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221-余忠旻" smoothhashscroll=""><span class="octicon octicon-link"></span></a><strong data-position="41" data-size="0"><code data-position="44" data-size="11">0716221 余忠旻</code></strong></h4><h3 class="part" data-startline="4" data-endline="4" id="-Q1-What-are-the-pros-and-cons-of-the-three-methods-Give-an-assumption-about-their-performances" data-id="-Q1-What-are-the-pros-and-cons-of-the-three-methods-Give-an-assumption-about-their-performances"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q1-What-are-the-pros-and-cons-of-the-three-methods-Give-an-assumption-about-their-performances" title="-Q1-What-are-the-pros-and-cons-of-the-three-methods-Give-an-assumption-about-their-performances" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="86" data-size="98"> Q1: What are the pros and cons of the three methods? Give an assumption about their performances.</span></font></h3><font color="#3CB371">
+</font><ul class="part" data-startline="7" data-endline="35">
+<li class="" data-startline="7" data-endline="14" data-position="196" data-size="0">
+<p data-position="194" data-size="0"><font color="#4682B4"><strong data-position="218" data-size="0"><span data-position="220" data-size="9">Method 1:</span></strong></font></p>
+<ul>
+<li class="" data-startline="8" data-endline="10" data-position="245" data-size="0"><font color="#4682B4"><strong data-position="267" data-size="0"><span data-position="269" data-size="5">pros:</span></strong></font>
+<ol data-position="293" data-size="0">
+<li class="" data-startline="9" data-endline="9" data-position="296" data-size="0"><span data-position="296" data-size="39">每個 thread 一次只需要處理一個 pixel，能善用 GPU 平行處理。</span></li>
+<li class="" data-startline="10" data-endline="10" data-position="347" data-size="0"><span data-position="347" data-size="54">沒有使用 paged-locked memory，因此對 system performance不會影響太大。</span></li>
+</ol>
+</li>
+<li class="" data-startline="11" data-endline="14" data-position="408" data-size="0"><font color="#4682B4"><strong data-position="430" data-size="0"><span data-position="432" data-size="5">cons:</span></strong></font>
+<ol data-position="455" data-size="0">
+<li class="" data-startline="12" data-endline="12" data-position="458" data-size="0"><span data-position="458" data-size="81">Load Unbalance 的問題不能完全解決，每個 thread 所需處理的計算量可能會有所不同，會發生完成的 thread 需要等待未完成的 thread。</span></li>
+<li class="" data-startline="13" data-endline="14" data-position="551" data-size="0"><span data-position="551" data-size="4">因為規定</span><code data-position="556" data-size="62">not allowed to use the image input as the host memory directly</code><span data-position="619" data-size="51"> ，會使得所使用的 memory 是 pagable，需要時可能不在 memory 裡，必須等待傳輸。</span></li>
+</ol>
+</li>
+</ul>
+</li>
+<li class="" data-startline="15" data-endline="24" data-position="674" data-size="0">
+<p data-position="672" data-size="0"><font color="#4682B4"><strong data-position="696" data-size="0"><span data-position="698" data-size="9">Method 2:</span></strong></font></p>
+<ul>
+<li class="" data-startline="16" data-endline="18" data-position="723" data-size="0"><font color="#4682B4"><strong data-position="745" data-size="0"><span data-position="747" data-size="5">pros:</span></strong></font>
+<ol data-position="770" data-size="0">
+<li class="" data-startline="17" data-endline="17" data-position="773" data-size="0"><span data-position="773" data-size="68">在資料是2D的情況下，並確保存放的時候有對齊，可藉由 CUDA 在一次讀取256 bits的資料會比較快特性，提高提取資料的時候的效率。</span></li>
+<li class="" data-startline="18" data-endline="18" data-position="853" data-size="0"><span data-position="853" data-size="53">使用的 memory 是 paged-locked，可以在需要時確保會在 memory 裡，避免傳輸時間。</span></li>
+</ol>
+</li>
+<li class="" data-startline="19" data-endline="24" data-position="913" data-size="0"><font color="#4682B4"><strong data-position="935" data-size="0"><span data-position="937" data-size="5">cons:</span></strong></font>
+<ol data-position="960" data-size="0">
+<li class="" data-startline="20" data-endline="20" data-position="963" data-size="0"><span data-position="963" data-size="78">會有 Load Unbalance 的問題，每個 thread 所需處理的計算量可能會有所不同，會發生完成的 thread 需要等待未完成的 thread。</span></li>
+<li class="" data-startline="21" data-endline="21" data-position="1053" data-size="0"><span data-position="1053" data-size="48">使用太多 paged-locked memory 會影響 system performance。</span></li>
+<li class="" data-startline="22" data-endline="22" data-position="1113" data-size="0"><span data-position="1113" data-size="115">使用 cudaMallocPitch 分配 GPU memory 為了保證記憶體空間會依 256 的倍數對齊，可能會多分配不須使用到的記憶體空間，造成浪費，並且 cudaMallocPitch 呼叫比 cudaMalloc 耗時。</span></li>
+<li class="" data-startline="23" data-endline="24" data-position="1240" data-size="0"><span data-position="1240" data-size="3">此方法</span><span class="ui-comment-inline-span" data-inline-comment-id="81d16f29-8b10-41c1-a2d7-6f02f72ebcfb" data-position="1243" data-size="46">沒有善用 paged-locked memory 的 zero-copy access 特性</span><span data-position="1289" data-size="23">，仍然會產生 data copy 的執行時間。</span></li>
+</ol>
+</li>
+</ul>
+</li>
+<li class="" data-startline="25" data-endline="35" data-position="1316" data-size="0">
+<p data-position="1314" data-size="0"><font color="#4682B4"><strong data-position="1338" data-size="0"><span data-position="1340" data-size="9">Method 3:</span></strong></font></p>
+<ul>
+<li class="" data-startline="26" data-endline="29" data-position="1365" data-size="0"><font color="#4682B4"><strong data-position="1387" data-size="0"><span data-position="1389" data-size="5">pros:</span></strong></font>
+<ol data-position="1412" data-size="0">
+<li class="" data-startline="27" data-endline="27" data-position="1415" data-size="0"><span data-position="1415" data-size="49">每個thread一次可以處理比較多個 pixels，可以減少 blocks 搬動到 SM 的次數。</span></li>
+<li class="" data-startline="28" data-endline="28" data-position="1476" data-size="0"><span data-position="1476" data-size="68">在資料是2D的情況下，並確保存放的時候有對齊，可藉由 CUDA 在一次讀取256 bits的資料會比較快特性，提高提取資料的時候的效率。</span></li>
+<li class="" data-startline="29" data-endline="29" data-position="1556" data-size="0"><span data-position="1556" data-size="53">使用的 memory 是 paged-locked，可以在需要時確保會在 memory 裡，避免傳輸時間。</span></li>
+</ol>
+</li>
+<li class="" data-startline="30" data-endline="35" data-position="1616" data-size="0"><font color="#4682B4"><strong data-position="1638" data-size="0"><span data-position="1640" data-size="5">cons:</span></strong></font>
+<ol data-position="1663" data-size="0">
+<li class="" data-startline="31" data-endline="31" data-position="1666" data-size="0"><span data-position="1666" data-size="74">每個 thread 處理的是一個 group 的 pixels，因此在平行的架構中會出現較多 serial 執行的部份，會影響了 GPU的執行效率。</span></li>
+<li class="" data-startline="32" data-endline="32" data-position="1752" data-size="0"><span data-position="1752" data-size="48">使用太多 paged-locked memory 會影響 system performance。</span></li>
+<li class="" data-startline="33" data-endline="33" data-position="1812" data-size="0"><span data-position="1812" data-size="115">使用 cudaMallocPitch 分配 GPU memory 為了保證記憶體空間會依 256 的倍數對齊，可能會多分配不須使用到的記憶體空間，造成浪費，並且 cudaMallocPitch 呼叫比 cudaMalloc 耗時。</span></li>
+<li class="" data-startline="34" data-endline="35" data-position="1939" data-size="0"><span data-position="1939" data-size="3">此方法</span><span class="ui-comment-inline-span" data-inline-comment-id="81670e3e-4228-4a21-98d7-f0d108323528" data-position="1942" data-size="46">沒有善用 paged-locked memory 的 zero-copy access 特性</span><span data-position="1988" data-size="23">，仍然會產生 data copy 的執行時間。</span></li>
+</ol>
+</li>
+</ul>
+</li>
+</ul><div class="alert alert-info part" data-startline="36" data-endline="44" data-position="2013" data-size="379">
+<p data-position="2021" data-size="0"><font size="4"><strong data-position="2034" data-size="0"><span data-position="2036" data-size="14">My Assumption:</span></strong></font></p>
+<p data-position="2061" data-size="0"><span data-position="2061" data-size="93">Method 3 比 Method 1 和 Mehtod 2 來說，Load Unbalance 的問題比較嚴重，且多了 serial part 的部分要處理，所以我認為是三者跑最慢的。</span></p>
+<p data-position="2156" data-size="0"><span data-position="2156" data-size="189">對於 Method 2 來說，它未善用到 zero-copy access 的優勢，反而可能會因為使用 cudaMallocPitch 而多分配出不少 GPU 記憶體空間，造成在做 memory copy 時的計算量有所增加，cudaMallocPitch 呼叫又比 cudaMalloc 耗時，因此在大部分的狀況下，我認為 Method 2 會比 Method 1 執行還慢。</span></p>
+<p data-position="2347" data-size="0"><strong data-position="2347" data-size="0"><span data-position="2349" data-size="36">預期執行速度 Method 1 &gt; Method 2 &gt; Method3</span></strong></p>
+</div><hr><h3 class="part" data-startline="48" data-endline="48" id="-Q2-How-are-the-performances-of-the-three-methods-Plot-a-chart-to-show-the-differences-among-the-three-methods" data-id="-Q2-How-are-the-performances-of-the-three-methods-Plot-a-chart-to-show-the-differences-among-the-three-methods"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q2-How-are-the-performances-of-the-three-methods-Plot-a-chart-to-show-the-differences-among-the-three-methods" title="-Q2-How-are-the-performances-of-the-three-methods-Plot-a-chart-to-show-the-differences-among-the-three-methods" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="2424" data-size="112"> Q2: How are the performances of the three methods? Plot a chart to show the differences among the three methods</span></font></h3><font color="#3CB371">
+<ul class="part" data-startline="49" data-endline="51">
+<li class="" data-startline="49" data-endline="49" data-position="2539" data-size="0"><span data-position="2539" data-size="26">for VIEW 1 and VIEW 2, and</span></li>
+<li class="" data-startline="50" data-endline="51" data-position="2568" data-size="0"><span data-position="2568" data-size="53">for different maxIteration (1000, 10000, and 100000).</span></li>
+</ul>
+</font><br><ul class="part" data-startline="55" data-endline="56">
+<li class="" data-startline="55" data-endline="56" data-position="2639" data-size="0"><font color="#4682B4"><strong data-position="2661" data-size="0"><span data-position="2663" data-size="6">VIEW 1</span></strong></font></li>
+</ul><table class="part" data-startline="57" data-endline="61">
+<thead>
+<tr>
+<th><span data-position="2682" data-size="18">iteration / method</span></th>
+<th><span data-position="2703" data-size="8">Method 1</span></th>
+<th><span data-position="2714" data-size="8">Method 2</span></th>
+<th><span data-position="2725" data-size="8">Method 3</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span data-position="2785" data-size="14">Iteration 1000</span></td>
+<td><span data-position="2801" data-size="8">7.028 ms</span></td>
+<td><span data-position="2810" data-size="8">9.104 ms</span></td>
+<td><span data-position="2819" data-size="9">10.773 ms</span></td>
+</tr>
+<tr>
+<td><span data-position="2832" data-size="15">Iteration 10000</span></td>
+<td><span data-position="2849" data-size="9">34.853 ms</span></td>
+<td><span data-position="2859" data-size="9">36.732 ms</span></td>
+<td><span data-position="2869" data-size="9">48.659 ms</span></td>
+</tr>
+<tr>
+<td><span data-position="2882" data-size="16">Iteration 100000</span></td>
+<td><span data-position="2900" data-size="10">321.344 ms</span></td>
+<td><span data-position="2911" data-size="10">324.041 ms</span></td>
+<td><span data-position="2922" data-size="10">434.161 ms</span></td>
+</tr>
+</tbody>
+</table><p class="part" data-startline="63" data-endline="64" data-position="2935" data-size="0"><img src="./Parallel Programming @ NYCU - HW5 - HackMD_files/N6Wfuah.png" alt="" class="" data-position="2935" data-size="36" loading="lazy"><br>
+<br></p><ul class="part" data-startline="67" data-endline="68">
+<li class="" data-startline="67" data-endline="68" data-position="2981" data-size="0"><font color="#4682B4"><strong data-position="3003" data-size="0"><span data-position="3005" data-size="6">VIEW 2</span></strong></font></li>
+</ul><table class="part" data-startline="69" data-endline="73">
+<thead>
+<tr>
+<th><span data-position="3024" data-size="18">iteration / method</span></th>
+<th><span data-position="3045" data-size="8">Method 1</span></th>
+<th><span data-position="3056" data-size="8">Method 2</span></th>
+<th><span data-position="3067" data-size="8">Method 3</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span data-position="3127" data-size="14">Iteration 1000</span></td>
+<td><span data-position="3143" data-size="8">3.968 ms</span></td>
+<td><span data-position="3152" data-size="8">5.804 ms</span></td>
+<td><span data-position="3161" data-size="8">6.701 ms</span></td>
+</tr>
+<tr>
+<td><span data-position="3173" data-size="15">Iteration 10000</span></td>
+<td><span data-position="3190" data-size="8">6.627 ms</span></td>
+<td><span data-position="3199" data-size="8">8.497 ms</span></td>
+<td><span data-position="3208" data-size="9">18.139 ms</span></td>
+</tr>
+<tr>
+<td><span data-position="3221" data-size="16">Iteration 100000</span></td>
+<td><span data-position="3239" data-size="9">32.402 ms</span></td>
+<td><span data-position="3249" data-size="9">35.311 ms</span></td>
+<td><span data-position="3259" data-size="10">116.718 ms</span></td>
+</tr>
+</tbody>
+</table><p class="part" data-startline="75" data-endline="75" data-position="3272" data-size="0"><img src="./Parallel Programming @ NYCU - HW5 - HackMD_files/KwPQt78.png" alt="" class="" data-position="3272" data-size="36" loading="lazy"></p><hr><h3 class="part" data-startline="79" data-endline="79" id="-Q3-Explain-the-performance-differences-thoroughly-based-on-your-experimental-results-Does-the-results-match-your-assumption-Why-or-why-not" data-id="-Q3-Explain-the-performance-differences-thoroughly-based-on-your-experimental-results-Does-the-results-match-your-assumption-Why-or-why-not"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q3-Explain-the-performance-differences-thoroughly-based-on-your-experimental-results-Does-the-results-match-your-assumption-Why-or-why-not" title="-Q3-Explain-the-performance-differences-thoroughly-based-on-your-experimental-results-Does-the-results-match-your-assumption-Why-or-why-not" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="3341" data-size="143"> Q3: Explain the performance differences thoroughly based on your experimental results. Does the results match your assumption? Why or why not.</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="82" data-endline="87" data-position="3494" data-size="0"><span data-position="3495" data-size="50">從上述 Q2 的比較圖看出不論是 iteration 數量 還是選擇 View1 或 View 2，</span><br>
+<span data-position="3546" data-size="20">Method 3 的執行效率都是最低的，</span><br>
+<span data-position="3567" data-size="46">這是因為 Method 3 每個 thread 處理的是一個 group 的 pixels，</span><br>
+<span data-position="3614" data-size="51">因此出現 serial 計算的部份會比 Method 1 和 Mehtod 2 多，所以影響執行效率，</span><br>
+<span data-position="3666" data-size="27">並且 Load Unbalance 問題是比較嚴重的。</span><br>
+<br></p><p class="part" data-startline="89" data-endline="90" data-position="3700" data-size="0"><span data-position="3700" data-size="28">接下來再比較 Method 1 和 Method 2 ，</span><br>
+<span data-position="3729" data-size="36">對於選擇 View 1 以及 View 2 執行，執行效率有極大的差別。</span></p><div class="alert alert-success part" data-startline="91" data-endline="98" data-position="3766" data-size="237">
+<p data-position="3777" data-size="0"><span data-position="3777" data-size="19">可以從 HW2 之前得到的結論來探討:</span><br>
+<strong data-position="3797" data-size="0"><span data-position="3799" data-size="41">在 8 位元灰階圖片中，0 表示黑色，最大值 255 則表示白色，數值越大顏色越淺</span></strong><br>
+<strong data-position="3843" data-size="0"><span data-position="3845" data-size="53">所以我發現，當 count=256 時， i 可能為 0~255 中任一數，其中數值大小決定該像素顏色深淺</span></strong></p>
+<p data-position="3902" data-size="0"><span data-position="3902" data-size="18">再比較VIEW 1和 VIEW 2:</span><br>
+<img src="./Parallel Programming @ NYCU - HW5 - HackMD_files/jzjx6af.jpg" alt="" class="" data-position="3921" data-size="36" loading="lazy"><br>
+<span data-position="3958" data-size="41">可以明顯看出 VIEW 1 的淺色像素遠比 View2 來得多且集中(集中在中間)</span></p>
+</div><p class="part" data-startline="101" data-endline="104" data-position="4005" data-size="0"><span data-position="4005" data-size="29">因此在執行 VIEW 1 會比 VIEW 2 執行還要長，</span><br>
+<span data-position="4035" data-size="58">是因為 Method 1 和 Method 2 在處理 VIEW 1 都會被處理中間淺色像素的 thread 拖累，</span><br>
+<span data-position="4094" data-size="22">最後都要等待執行最久的 thread 完成，</span><br>
+<span data-position="4117" data-size="30">但在 VIEW 2 中，淺色像素較平均，執行速度就會比較快。</span></p><p class="part" data-startline="106" data-endline="109" data-position="4149" data-size="0"><span data-position="4149" data-size="40">在兩種 VIEW 中，Method 2 會比 Method 1 執行再稍慢一點，</span><br>
+<span data-position="4190" data-size="106">一方面可能是使用 cudaMallocPitch 分配 GPU memory 為了保證記憶體空間會依 256 的倍數對齊，可能會多分配不須使用到的記憶體空間，造成在做 memory copy 時的計算量有所增加，</span><br>
+<span data-position="4297" data-size="53">另一方面可能是 Method 2 比 Method 1 的 Load Unbalance 問題較嚴重一點，</span><br>
+<span data-position="4351" data-size="25">所以 Method 2 才會有執行效果不佳的原因。</span></p><hr><h3 class="part" data-startline="113" data-endline="113" id="-Q4-Can-we-do-even-better-Think-a-better-approach-and-explain-it-Implement-your-method-in-kernel4cu" data-id="-Q4-Can-we-do-even-better-Think-a-better-approach-and-explain-it-Implement-your-method-in-kernel4cu"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q4-Can-we-do-even-better-Think-a-better-approach-and-explain-it-Implement-your-method-in-kernel4cu" title="-Q4-Can-we-do-even-better-Think-a-better-approach-and-explain-it-Implement-your-method-in-kernel4cu" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="4409" data-size="93"> Q4: Can we do even better? Think a better approach and explain it. Implement your method in </span><code data-position="4503" data-size="10">kernel4.cu</code><span data-position="4514" data-size="1">.</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="116" data-endline="121" data-position="4525" data-size="0"><span data-position="4525" data-size="29">透過上述的比較，可以看出 Method 1 執行效能最好，</span><br>
+<span data-position="4555" data-size="22">因此我以 Method 1 為基礎進行修改，</span><br>
+<span data-position="4578" data-size="51">在原本作業規定中 Method 1 在 host 端也要 allocate 一段記憶體空間做資料傳輸，</span><br>
+<span data-position="4630" data-size="26">但實際上可以不需要在 host 端額外配置一塊空間，</span><br>
+<strong data-position="4657" data-size="0"><span data-position="4659" data-size="38">直接將 device 上的值透過 cudaMemcpy 複製到 img 當中</span></strong><span data-position="4699" data-size="3">就好，</span><br>
+<span data-position="4703" data-size="18">這樣可以省去配置、複製及刪除的時間。</span></p><p class="part" data-startline="123" data-endline="125" data-position="4723" data-size="0"><span data-position="4723" data-size="26">除此之外，因為傳入的圖檔的為 1600 * 1200，</span><br>
+<span data-position="4751" data-size="26">所以我將一個block處理的threads數目改為 </span><strong data-position="4777" data-size="0"><span data-position="4779" data-size="3">“8”</span></strong><span data-position="4784" data-size="1"> </span><code data-position="4786" data-size="30">=&gt; dim3 threadsPerBlock(8, 8);</code><span data-position="4817" data-size="1">，</span><br>
+<span data-position="4819" data-size="13">使其設定為加速最多的方式。</span></p><hr></div>
+
+    <div class="document-footer container-fluid hmd-pb-2 hidden-print">
+        <hr>
+        <div class="footer hmd-flex hmd-items-center">
+    <div class="footer__published-by hmd-flex-grow-1">
+        <span>發表於</span> <strong><a href="https://hackmd.io/" target="_blank"><i class="fa fa-file-text"></i> <span class="brand">HackMD</span></a></strong>
+    </div>
+    <div class="footer__views" style="margin-right: 18px;">
+        <i class="fa fa-eye"></i> <span class="ui-viewcount" title="50">50</span>
+    </div>
+    <div class="footer__views">
+    
+        <span class="community-button ui-like" data-toggle="tooltip" data-placement="top" title="" data-original-title="讚賞"><i class="fa fa-fw"></i><span class="text hidden-xs">讚賞</span><span class="count"></span></span>
+        <span class="community-button ui-bookmark" data-toggle="tooltip" data-placement="top" title="" data-original-title="收藏"><i class="fa fa-fw"></i><span class="text hidden-xs"><span class="bookmark-label">收藏</span><span class="bookmarked-label">已收藏</span></span></span>
+        
+            <div class="ui-notification dropup dropdown ">
+                <span id="notificationLabel" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="community-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="訂閱">
+                        <i class="fa fa-fw fa-bell"></i><span class="text hidden-xs">已訂閱<i class="fa fa-fw fa-angle-down"></i><i class="fa fa-fw fa-angle-up"></i></span>
+                    </div>
+                </span>
+                <ul class="dropdown-menu pull-right" aria-labelledby="notificationLabel">
+                    <li class="ui-notification-watch notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-bell fa-fw"></i><div class="info"><div class="title">所有通知</div><div class="description">當有任何變更時將會收到通知</div></div></li>
+                    <li class="ui-notification-mention notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-at fa-fw"></i><div class="info"><div class="title">提及我</div><div class="description">當有人提及我時才會收到通知</div></div></li>
+                    <li class="divider"></li>
+                    <!--
+                        <li class="ui-notification-list notification-menu-item"><span><a href="#"><i class="fa fa-list-ul fa-fw"></i>我的訂閱列表</a></span></li>
+                    -->
+                    <li class="ui-notification-unsubscribe notification-menu-item"><i class="fa fa-bell-slash-o fa-fw"></i>取消訂閱</li>
+                </ul>
+                <span class="ui-notification-subscribe community-button"><i class="fa fa-fw fa-bell-o"></i><span class="text hidden-xs">訂閱</span></span>
+            </div>
+        
+    
+    </div>
+</div>
+
+    </div>
+
+    <div class="ui-community unselectable hidden-print hidden-xs" style="display: none; left: 529.5px;">
+        
+            <div class="community-button ui-like" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="讚賞"><i class="fa fa-fw"></i><div class="count"></div></div>
+            <div class="community-button ui-bookmark" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="收藏"><i class="fa fa-fw"></i></div>
+            
+                <div class="ui-notification dropup dropdown " title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="訂閱">
+                    <div id="notificationLabel" class="community-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="ui-notification-status"><i class="fa fa-fw fa-bell"></i></div>
+                    </div>
+                    <ul class="dropdown-menu left" aria-labelledby="notificationLabel">
+                        <li class="ui-notification-watch notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-bell fa-fw"></i><div class="info"><div class="title">所有通知</div><div class="description">當有任何變更時將會收到通知</div></div></li>
+                        <li class="ui-notification-mention notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-at fa-fw"></i><div class="info"><div class="title">提及我</div><div class="description">當有人提及我時才會收到通知</div></div></li>
+                        <li class="divider"></li>
+                        <!--
+                           <li class="ui-notification-list notification-menu-item"><span><a href="#"><i class="fa fa-list-ul fa-fw"></i>我的訂閱列表</a></span></li>
+                        -->
+                        <li class="ui-notification-unsubscribe notification-menu-item"><i class="fa fa-bell-slash-o fa-fw"></i>取消訂閱</li>
+                    </ul>
+                    <div class="ui-notification-subscribe community-button"><i class="fa fa-fw fa-bell-o"></i></div>
+                </div>
+            
+        
+    </div>
+
+    <div class="ui-toc dropup unselectable hidden-print" style="display: none; left: 535.141px;">
+        <div class="pull-left dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="https://hackmd.io/@chungmin-yu/pp-hw5#" role="button" aria-haspopup="true" aria-expanded="false" title="目錄">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel"><div class="toc"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#Parallel-Programming--NYCU---HW5" title="Parallel Programming @ NYCU - HW5" smoothhashscroll="">Parallel Programming @ NYCU - HW5</a><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221 余忠旻" smoothhashscroll="">0716221 余忠旻</a></li>
+</ul>
+</li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q1-What-are-the-pros-and-cons-of-the-three-methods-Give-an-assumption-about-their-performances" title=" Q1: What are the pros and cons of the three methods? Give an assumption about their performances." smoothhashscroll=""> Q1: What are the pros and cons of the three methods? Give an assumption about their performances.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q2-How-are-the-performances-of-the-three-methods-Plot-a-chart-to-show-the-differences-among-the-three-methods" title=" Q2: How are the performances of the three methods? Plot a chart to show the differences among the three methods" smoothhashscroll=""> Q2: How are the performances of the three methods? Plot a chart to show the differences among the three methods</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q3-Explain-the-performance-differences-thoroughly-based-on-your-experimental-results-Does-the-results-match-your-assumption-Why-or-why-not" title=" Q3: Explain the performance differences thoroughly based on your experimental results. Does the results match your assumption? Why or why not." smoothhashscroll=""> Q3: Explain the performance differences thoroughly based on your experimental results. Does the results match your assumption? Why or why not.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q4-Can-we-do-even-better-Think-a-better-approach-and-explain-it-Implement-your-method-in-kernel4cu" title=" Q4: Can we do even better? Think a better approach and explain it. Implement your method in kernel4.cu." smoothhashscroll=""> Q4: Can we do even better? Think a better approach and explain it. Implement your method in kernel4.cu.</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://hackmd.io/@chungmin-yu/pp-hw5#">全部展開</a><a class="back-to-top" href="https://hackmd.io/@chungmin-yu/pp-hw5#">回到頂部</a><a class="go-to-bottom" href="https://hackmd.io/@chungmin-yu/pp-hw5#">移至底部</a></div></ul>
+        </div>
+    </div>
+
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print affix" data-spy="affix" style="top: 87px; left: 283.5px; width: 571.5px;"><div class="toc"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#Parallel-Programming--NYCU---HW5" title="Parallel Programming @ NYCU - HW5" smoothhashscroll="">Parallel Programming @ NYCU - HW5</a><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221 余忠旻" smoothhashscroll="">0716221 余忠旻</a></li>
+</ul>
+</li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q1-What-are-the-pros-and-cons-of-the-three-methods-Give-an-assumption-about-their-performances" title=" Q1: What are the pros and cons of the three methods? Give an assumption about their performances." smoothhashscroll=""> Q1: What are the pros and cons of the three methods? Give an assumption about their performances.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q2-How-are-the-performances-of-the-three-methods-Plot-a-chart-to-show-the-differences-among-the-three-methods" title=" Q2: How are the performances of the three methods? Plot a chart to show the differences among the three methods" smoothhashscroll=""> Q2: How are the performances of the three methods? Plot a chart to show the differences among the three methods</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q3-Explain-the-performance-differences-thoroughly-based-on-your-experimental-results-Does-the-results-match-your-assumption-Why-or-why-not" title=" Q3: Explain the performance differences thoroughly based on your experimental results. Does the results match your assumption? Why or why not." smoothhashscroll=""> Q3: Explain the performance differences thoroughly based on your experimental results. Does the results match your assumption? Why or why not.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw5#-Q4-Can-we-do-even-better-Think-a-better-approach-and-explain-it-Implement-your-method-in-kernel4cu" title=" Q4: Can we do even better? Think a better approach and explain it. Implement your method in kernel4.cu." smoothhashscroll=""> Q4: Can we do even better? Think a better approach and explain it. Implement your method in kernel4.cu.</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://hackmd.io/@chungmin-yu/pp-hw5#">全部展開</a><a class="back-to-top" href="https://hackmd.io/@chungmin-yu/pp-hw5#">回到頂部</a><a class="go-to-bottom" href="https://hackmd.io/@chungmin-yu/pp-hw5#">移至底部</a></div></div>
+    
+
+    <div class="clearfix"></div>
+
+    <!-- signin modal -->
+<div class="modal fade signin-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 10px; right: 20px; position: absolute;"><span aria-hidden="true">×</span></button>
+            
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<h3>登入</h3>
+
+<form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" novalidate="true" data-bitwarden-watching="1">
+    <div class="hmd-dn"><input type="hidden" name="_csrf" value="CLkbErem-bkF-SpbltL1ltqtE0jU64d6MIiM"></div>
+    <div class="hmd-dn"><input type="hidden" name="create_team" value="false"></div>
+    <div class="hmd-dn"><input type="hidden" name="create_paid_team" value="false"></div>
+    <div class="form-group  ">
+        <label for="email" class="control-label">Email</label>
+        <label for="inputEmail" class="control-label pull-right errors">
+            
+        </label>
+        <span class="help-block control-label with-errors pull-right" style="display: inline;"></span>
+        <div class="input-block">
+            
+                <input type="email" class="form-control" name="email" placeholder="您的 Email" required="" autocomplete="email">
+            
+            <span class="error-sign"></span>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label for="password" class="control-label">密碼</label>
+        <label for="inputPassword" class="control-label pull-right errors">
+            
+        </label>
+        <span class="help-block control-label with-errors pull-right" style="display: inline;"></span>
+        <div class="input-block">
+            <input type="password" class="form-control" name="password" placeholder="您的密碼" required="" autocomplete="current-password">
+            <span class="error-sign"></span>
+            
+                <span class="control-label pull-right" style="font-size: 13px; margin-top: 5px;"><a href="https://hackmd.io/settings/forgotPassword" style="text-decoration: underline;">忘記密碼</a></span>
+            
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-top: 15px; margin-bottom: 0px;">
+        
+            <input type="submit" class="btn btn-success btn-large disabled" formaction="https://hackmd.io/login" value="登入">
+        
+
+        
+    </div>
+</form>
+
+
+
+
+
+
+
+
+    
+        <p class="separator">或是</p>
+    
+
+    
+        <p>繼續登入，代表您同意<a href="https://hackmd.io/s/terms" target="_blank">服務條款</a>。</p>
+    
+
+    
+
+
+
+
+
+
+
+
+ 
+
+
+
+<script id="gsi-client" src="./Parallel Programming @ NYCU - HW5 - HackMD_files/client" async="" defer="" nonce=""></script>
+<script nonce="">
+    function handleCredentialResponse(response) {
+        const form = document.getElementById('sign-in-with-google-form')
+        form.children.credential.value = response.credential
+        form.children.method.value = location.href.toLowerCase() === 'https://hackmd.io/settings#general' ? 'merge' : 'login'
+        form.submit()
+    }
+    var GSI_READY = new Promise(function (resolve) {
+        function initialize () {
+            google.accounts.id.initialize({
+                client_id: '911617723593-drikdibvvn63slfd6kbqigo8ql1no55s.apps.googleusercontent.com',
+                callback: handleCredentialResponse
+            })
+            const loginPath = 'https://hackmd.io/login'
+            const joinPath = 'https://hackmd.io/join'
+            const renderButton = function () {
+                google.accounts.id.renderButton(
+                    document.getElementById('sign-in-with-google-button'),
+                    { type: 'standard', width: 250 }
+                )
+            }
+            if (location.href.toLowerCase() === loginPath || location.href.toLowerCase() === joinPath) {
+                renderButton()
+            } else {
+                $('.signin-modal').one('shown.bs.modal', function () {
+                    renderButton()
+                })
+            }
+            resolve()
+        }
+
+        window.addEventListener('load', function () { initialize() })
+    })
+</script>
+<form class="hidden" id="sign-in-with-google-form" action="https://hackmd.io/auth/google" method="post">
+    <input type="hidden" name="credential">
+    <input type="hidden" name="method">
+</form>
+ 
+
+<div class="social-buttons-container">
+    
+    <div id="sign-in-with-google-button"></div>
+    
+    
+    <a href="https://hackmd.io/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+        <i class="fa fa-facebook"></i> 透過 Facebook 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+        <i class="fa fa-twitter"></i> 透過 Twitter 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+        <i class="fa fa-github"></i> 透過 GitHub 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+        <i class="fa fa-dropbox"></i> 透過 Dropbox 登入
+    </a>
+    
+    
+    
+</div>
+
+
+
+
+
+    <div>
+        <p>第一次使用 HackMD？ <a href="https://hackmd.io/join">註冊</a></p>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+    
+    <script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/js"></script>
+    <script nonce="">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        let userid = (document.cookie.match('(^|; )userid=([^;]*)')||0)[2];
+        gtag('config', 'UA-60728495-1', {'user_id': userid});
+        
+    </script>
+
+
+    
+<script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/bundle.min.js.下載" crossorigin="anonymous"></script>
+<script nonce="">Sentry.init({ dsn: 'https://73410f1915d84abc8b2dd1f1aabd1c82@sentry.hackmd.dev/4', environment: 'production', integrations: function (intrus) { return intrus.filter(function (itr) { return itr.name !== 'TryCatch' }) } });</script>
+
+
+    
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLW9Z3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+
+    <script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/i18n.js.下載"></script>
+     <script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/font-vendor.f713c28932303455912c.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/common-vendor.5fa67d7f53b925f0505d.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/pretty-vendor.ab29655f5710763afd11.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/pretty-common.f105045e756f7bd3d15c.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW5 - HackMD_files/pretty.e86a95788bf66b2682c0.js.下載" defer="defer"></script>
+
+    
+
+
+
+<div class="ReactModalPortal"></div><div class="ReactModalPortal"></div><div class="ReactModalPortal"></div></body></html>

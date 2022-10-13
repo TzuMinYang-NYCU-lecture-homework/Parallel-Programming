@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://hackmd.io/@chungmin-yu/pp-hw2 -->
+<html lang="zh-TW"><script async="" src="./Parallel Programming @ NYCU - HW2 - HackMD_files/gtm.js.下載"></script><script id="allow-copy_script">(function agent() {
+    let unlock = false
+    document.addEventListener('allow_copy', (event) => {
+      unlock = event.detail.unlock
+    })
+
+    const copyEvents = [
+      'copy',
+      'cut',
+      'contextmenu',
+      'selectstart',
+      'mousedown',
+      'mouseup',
+      'mousemove',
+      'keydown',
+      'keypress',
+      'keyup',
+    ]
+    const rejectOtherHandlers = (e) => {
+      if (unlock) {
+        e.stopPropagation()
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation()
+      }
+    }
+    copyEvents.forEach((evt) => {
+      document.documentElement.addEventListener(evt, rejectOtherHandlers, {
+        capture: true,
+      })
+    })
+  })()</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="csrf-token" content="amMBfSeu-9W3Duv9E2doUwMBrmCzS8s2TarY">
+    
+    
+    <meta name="description" content="# Parallel Programming @ NYCU - HW2 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; In your write">
+    
+    <title>Parallel Programming @ NYCU - HW2 - HackMD</title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+	<link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+    
+<script nonce="">
+  window.domain = 'hackmd.io'
+  window.urlpath = ''
+  window.debug = false
+  window.version = '1.3.0'
+  window.brand = 'HackMD'
+
+  
+  window.NOTE_ID = 'RB3pkHIXRVG5xrMMwgyRhQ'
+  
+
+  window.GOOGLE_API_KEY = 'AIzaSyCjSrqWHhmWJnoI7JlD88XDSaBgiKbaenA'
+  window.GOOGLE_CLIENT_ID = '911617723593-drikdibvvn63slfd6kbqigo8ql1no55s.apps.googleusercontent.com'
+  window.DROPBOX_APP_KEY = 'rdoizrlnkuha23r'
+  
+  window.PLANTUML_SERVER = 'https://ptuml.hackmd.io'
+
+  window.ASSET_URL = 'https://assets.hackmd.io'
+
+  window.USER_CAN_CREATE_TEAM = true
+  window.USER_CAN_DELETE_ACCOUNT = true
+  window.USER_DELETE_ACCOUNT_VIA_EMAIL = true
+  window.PAYMENT_ENABLED = true
+  window.PAYMENT_PROMOTION_BANNER_ENABLED = false
+  window.GITHUB_SYNC_ENABLED = true
+  window.GITLAB_SYNC_ENABLED = false
+  window.GITLAB_SYNC_BASE_URL = ''
+  window.VCS_SYNC_MODE = 'github'
+  window.VCS_PROVIDER_NAME = 'GitHub'
+  window.FREE_TEAM_NUM = 20
+  window.FREE_TEAM_MEMBER_NUM = 3
+  window.FREE_PUBLIC_TEAM_NUM = 10
+  
+  window.EE_SITE_ENABLE = false
+  window.EE_SITE_NAME = 'false'
+  window.EE_SITE_LINK = 'false'
+  window.EESITE_INFO = false
+  window.ENTERPRISE_DISCOVERY_ENABLE = false
+  window.ENTERPRISE_DISCOVERY_TEAM = true
+  window.ENTERPRISE_DISCOVERY_NOTE = true
+  window.ENTERPRISE_DISCOVERY_VIEW_PERMISSION = 'guest'
+  
+  window.ALLOW_ANONYMOUS = true
+  window.ALLOW_ANONYMOUS_EDIT = false
+  window.PUBLIC_OVERVIEW = false
+  window.INTERNAL_PUBLIC_OVERVIEW = false
+  window.FULL_TEXT_SEARCH_ENABLE = false
+  window.ALGOLIA_SEARCH_ENABLE = true
+  window.MARKETING_EMAIL_ENABLE = true
+  
+  window.API_MANAGEMENT_UI_ENABLE = true
+  window.FEEDBACK_UI_ENABLE = true
+
+  
+  window.SHOW_HOT_NOTES = false
+  
+
+  
+  window.HOT_NOTES_TIME_TYPE = 'week'
+  
+
+  
+  window.SHOW_OVERVIEW = true
+  
+
+  
+  window.MENTIONS = {}
+  
+
+  
+  window.MENTION_ANCHORS = []
+  
+
+  
+  window.COMMENT_ANCHORS = []
+  
+
+  
+  window.IS_OWNER = false
+  
+
+  
+  window.IS_TEAM_ADMIN = false
+  
+
+  
+
+  
+  window.USER_PROFILE = {"name":"楊子民","userpath":"sam1248105","photo":"https://graph.facebook.com/3226858230677250/picture?width=96","userid":"2c7be004-f01e-46bd-b2d6-7133e2372bb8"}
+  
+
+  
+  window.VERSION_TIME = '1636611830496'
+  
+
+  
+  window.canEdit = false
+  
+
+  
+  window.canWriteComment = true
+  
+</script>
+
+
+    
+<!-- Google Tag Manager -->
+<script nonce="">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLW9Z3');</script>
+<!-- End Google Tag Manager -->
+
+
+    
+
+
+
+<meta property="fb:app_id" content="1436904003272070">
+
+
+    <meta name="twitter:image:src" content="https://i.imgur.com/d1tkvux.jpg">
+
+
+<meta name="twitter:site" content="@hackmdio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Parallel Programming @ NYCU - HW2 - HackMD">
+
+
+    <meta name="twitter:description" content="# Parallel Programming @ NYCU - HW2 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; In your write">
+
+
+
+    <meta property="og:image" content="https://i.imgur.com/d1tkvux.jpg">
+
+
+<meta property="og:site_name" content="HackMD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parallel Programming @ NYCU - HW2 - HackMD">
+
+
+    <meta property="og:description" content="# Parallel Programming @ NYCU - HW2 #### **`0716221 余忠旻`**  ### &lt;font color=&quot;#3CB371&quot;&gt; In your write">
+
+
+    <link rel="stylesheet" href="./Parallel Programming @ NYCU - HW2 - HackMD_files/emojify.min.css">
+     <link href="./Parallel Programming @ NYCU - HW2 - HackMD_files/font-vendor.2faf3ffac7f75fe112b7.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW2 - HackMD_files/common-vendor.017f3a98adc3881767cb.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW2 - HackMD_files/pretty-vendor.163c8115660d5ee6132e.css" rel="stylesheet"><link href="./Parallel Programming @ NYCU - HW2 - HackMD_files/pretty.b4a9b06f618e35f08eec.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+<![endif]-->
+
+<style id="googleidentityservice_button_styles" nonce="">.qJTHM{-webkit-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:"Roboto-Regular",arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{word-break:break-all}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-uaxL4e{-webkit-border-radius:10px;border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf,.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u>div:nth-child(1){background-color:#1a73e8!important}.P1ekSe-ZMv3u>div:nth-child(2),.P1ekSe-ZMv3u>div:nth-child(3){background-image:linear-gradient(to right,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(to right,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{-webkit-border-radius:4px;border-radius:4px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-webkit-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:"Google Sans",arial,sans-serif;font-size:14px;height:40px;letter-spacing:0.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:14px;height:32px;letter-spacing:0.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:11px;height:20px;letter-spacing:0.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{-webkit-border-radius:20px;border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{-webkit-border-radius:16px;border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{-webkit-border-radius:10px;border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-top-left-radius:3px;border-top-left-radius:3px;-webkit-border-bottom-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;justify-content:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:3px;border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:18px;border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:14px;border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:8px;border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-flex-direction:row;flex-direction:row;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;flex-grow:1;font-family:"Google Sans",arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:hover,.nsm7Bb-HzV7m-LgbsSe:focus{-webkit-box-shadow:none;box-shadow:none;border-color:#d2e3fc;outline:none}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.04)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{-webkit-border-radius:50%;border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:"Roboto";font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-top-left-radius:0;border-top-left-radius:0;-webkit-border-bottom-left-radius:0;border-bottom-left-radius:0;-webkit-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-border-bottom-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{-webkit-border-radius:18px;border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{-webkit-border-radius:4px;border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style><style>::-moz-focus-inner{border:0 !important;}:focus,.focus{outline: none !important;}</style><style></style><link rel="stylesheet" type="text/css" href="./Parallel Programming @ NYCU - HW2 - HackMD_files/fretboard.26d5e78e694dfbd67fb7.css"><link id="googleidentityservice" type="text/css" media="all" rel="stylesheet" href="./Parallel Programming @ NYCU - HW2 - HackMD_files/style"></head>
+
+<body style="">
+    <div class="ui-infobar container-fluid unselectable hidden-print comment-enabled">
+        <div class="row">
+            <div class="col-xs-12 ui-infobar-inner">
+                <div class="ui-infobar__user-info">
+                    <ul class="list-inline">
+                        <li>
+                            
+                                <span class="ui-lastchangeuser" data-profile="ZK24EYx4QiKyzexRlzYyfQ"> <a class="ui-user-icon small user-card-popover" style="background-image: url(https://avatars.githubusercontent.com/u/32153107?s=96);" target="_blank" href="https://hackmd.io/@ZK24EYx4QiKyzexRlzYyfQ" data-toggle="popover" data-original-title="" title=""></a></span>
+                            
+                            &nbsp;<span class="text-uppercase ui-status-lastchange" title="2021年11月11日星期四 14:23">變更於 1 年前</span>
+                            <span class="ui-lastchange text-uppercase" data-createtime="Fri Oct 29 2021 17:07:39 GMT+0000 (Coordinated Universal Time)" data-updatetime="Thu Nov 11 2021 06:23:50 GMT+0000 (Coordinated Universal Time)"></span>
+                        </li>
+                        
+                            <li>
+                                <span class="ui-owner" data-profile="chungmin-yu">
+                                     <a class="ui-user-icon small user-card-popover" style="background-image: url(https://i.imgur.com/d1tkvux.jpg);" target="_blank" href="https://hackmd.io/@chungmin-yu" data-toggle="popover" data-original-title="" title=""></a>
+                                    &nbsp;<span class="text-uppercase">擁有這篇筆記</span>
+                                </span>
+                            </li>
+                        
+                        
+                        <li>
+                            <span class="ui-more-info" data-toggle="popover" data-original-title="" title="">
+                                 <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+                                <div class="more-info-raw hmd-dn">
+                                    <span class="ui-published-note note-status-row hmd-db">
+                                        <i class="fa fa-globe" aria-hidden="true" style="margin-top: 1px;"></i>
+                                        公開筆記
+                                    </span>
+
+                                    <span class="ui-connectedGithub note-status-row hmd-dn">
+                                        <i class="fa fa-20 ui-connectedGithubIcon fa-github"></i>
+
+                                        <span>與 GitHub 同步</span>
+
+                                        <br>
+
+                                        <a class="file-path" target="_blank"></a>
+                                    </span>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hmd-text-right ui-infobar__actions">
+                    <ul class="list-inline">
+                        <li>
+                            
+                                <span class="community-button ui-like hidden-xs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="讚賞"><i class="fa fa-fw"></i><span class="text">讚賞</span><span class="count"></span></span>
+                                <span class="community-button ui-bookmark hidden-xs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="收藏"><i class="fa fa-fw"></i><span class="text"><span class="bookmark-label">收藏</span><span class="bookmarked-label">已收藏</span></span></span>
+                                
+                                    <div class="ui-notification dropdown ">
+                                        <span id="notificationLabel" class="ui--subscribed hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <div class="ui-notification-status community-button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="訂閱">
+                                                <i class="fa fa-fw fa-bell"></i><span class="text">已訂閱<i class="fa fa-fw fa-angle-down"></i><i class="fa fa-fw fa-angle-up"></i></span>
+                                            </div>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="notificationLabel">
+                                            <li class="ui-notification-watch notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-bell fa-fw"></i><div class="info"><div class="title">所有通知</div><div class="description">當有任何變更時將會收到通知</div></div></li>
+                                            <li class="ui-notification-mention notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-at fa-fw"></i><div class="info"><div class="title">提及我</div><div class="description">當有人提及我時才會收到通知</div></div></li>
+                                            <li class="divider"></li>
+                                            <!--
+                                                <li class="ui-notification-list notification-menu-item"><span><a href="#"><i class="fa fa-list-ul fa-fw"></i>我的訂閱列表</a></span></li>
+                                            -->
+                                            <li class="ui-notification-unsubscribe notification-menu-item"><i class="fa fa-bell-slash-o fa-fw"></i>取消訂閱</li>
+                                        </ul>
+                                        <span class="ui-notification-subscribe community-button hidden-xs"><i class="fa fa-fw fa-bell-o"></i><span class="text">訂閱</span></span>
+                                    </div>
+                                
+                            
+                        </li>
+                        
+                    </ul>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <div class="ui-comment-app hidden md:block" id="hackmd-app" style="right: -45px; width: 45px;">
+            <div id="comment-app"><div class="open-comments"><div><button class="ui-open-comments btn btn-default"><i class="fa fa-commenting" aria-hidden="true"></i><span class="text">0 篇留言</span></button></div><div style="display: none;"><div class="comment-settings" id="comment-settings"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/comments-settings.svg" style="margin-right: 5px;"><div>留言設定</div></div></div></div><div class="comments-scroller"><div class="comments-containers"></div></div></div>
+        </div>
+        
+    </div>
+
+    <!-- Markdown rendered container -->
+    <div id="doc" class="container-fluid markdown-body comment-enabled" data-hard-breaks="true"><h1 class="part" data-startline="1" data-endline="1" id="Parallel-Programming--NYCU---HW2" data-id="Parallel-Programming--NYCU---HW2"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#Parallel-Programming--NYCU---HW2" title="Parallel-Programming--NYCU---HW2" smoothhashscroll=""><span class="octicon octicon-link"></span></a><span data-position="2" data-size="33">Parallel Programming @ NYCU - HW2</span></h1><h4 class="part" data-startline="2" data-endline="2" id="0716221-余忠旻" data-id="0716221-余忠旻"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221-余忠旻" smoothhashscroll=""><span class="octicon octicon-link"></span></a><strong data-position="41" data-size="0"><code data-position="44" data-size="11">0716221 余忠旻</code></strong></h4><h3 class="part" data-startline="4" data-endline="4" id="-In-your-write-up-produce-a-graph-of-speedup-compared-to-the-reference-sequential-implementation-as-a-function-of-the-number-of-threads-used-FOR-VIEW-1" data-id="-In-your-write-up-produce-a-graph-of-speedup-compared-to-the-reference-sequential-implementation-as-a-function-of-the-number-of-threads-used-FOR-VIEW-1"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#-In-your-write-up-produce-a-graph-of-speedup-compared-to-the-reference-sequential-implementation-as-a-function-of-the-number-of-threads-used-FOR-VIEW-1" title="-In-your-write-up-produce-a-graph-of-speedup-compared-to-the-reference-sequential-implementation-as-a-function-of-the-number-of-threads-used-FOR-VIEW-1" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="86" data-size="153"> In your write-up, produce a graph of speedup compared to the reference sequential implementation as a function of the number of threads used FOR VIEW 1.</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="5" data-endline="7" data-position="240" data-size="0"><font color="#3CB371"><span data-position="240" data-size="89">(You may also wish to produce a graph for VIEW 2 to help you come up with a good answer.)</span><br>
+</font><br>
+<span data-position="338" data-size="36">我將 image 由上到下均分給各個 thread 計算執行，如下實作:</span></p><pre class="part" data-startline="9" data-endline="16" data-position="376"><code class="cpp hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span></div><div class="code"><span class="token keyword">void</span> <span class="token function">workerThreadStart</span><span class="token punctuation">(</span>WorkerArgs <span class="token operator">*</span><span class="token keyword">const</span> args<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> workload <span class="token operator">=</span> args<span class="token operator">-&gt;</span>height <span class="token operator">/</span> args<span class="token operator">-&gt;</span>numThreads<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> start <span class="token operator">=</span> args<span class="token operator">-&gt;</span>threadId <span class="token operator">*</span> workload<span class="token punctuation">;</span>
+    <span class="token function">mandelbrotSerial</span><span class="token punctuation">(</span>args<span class="token operator">-&gt;</span>x0<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>y0<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>x1<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>y1<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>width<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>height<span class="token punctuation">,</span> start<span class="token punctuation">,</span> workload<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>maxIterations<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>output<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</div></div></code></pre><p class="part" data-startline="17" data-endline="17" data-position="675" data-size="0"><span data-position="675" data-size="44">下圖是不同 number of threads 所產生的相對應的 speedup 比較圖</span></p><ul class="part" data-startline="18" data-endline="18">
+<li class="" data-startline="18" data-endline="18" data-position="722" data-size="0"><font color="#082567" size="4"><span data-position="751" data-size="6">VIEW 1</span></font></li>
+</ul><pre class="part" data-startline="19" data-endline="38" data-position="765"><code>$ ./mandelbrot -t 2
+[mandelbrot serial]:            [474.001] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [239.313] ms
+Wrote image file mandelbrot-thread.ppm
+                                (1.98x speedup from 2 threads)
+$ ./mandelbrot -t 3
+[mandelbrot serial]:            [475.400] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [291.510] ms
+Wrote image file mandelbrot-thread.ppm
+                                (1.63x speedup from 3 threads)
+$ ./mandelbrot -t 4
+[mandelbrot serial]:            [464.144] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [193.675] ms
+Wrote image file mandelbrot-thread.ppm
+                                (2.40x speedup from 4 threads)
+</code></pre><p class="part" data-startline="40" data-endline="40" data-position="1527" data-size="0"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/MHQ4DCW.jpg" alt="" class="" data-position="1527" data-size="36" loading="lazy"></p><ul class="part" data-startline="43" data-endline="43">
+<li class="" data-startline="43" data-endline="43" data-position="1568" data-size="0"><font color="#082567" size="4"><span data-position="1597" data-size="6">VIEW 2</span></font></li>
+</ul><pre class="part" data-startline="44" data-endline="63" data-position="1611"><code>$ ./mandelbrot -t 2 --view 2
+[mandelbrot serial]:            [296.608] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [174.557] ms
+Wrote image file mandelbrot-thread.ppm
+                                (1.70x speedup from 2 threads)
+$ ./mandelbrot -t 3 --view 2
+[mandelbrot serial]:            [290.624] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [131.804] ms
+Wrote image file mandelbrot-thread.ppm
+                                (2.20x speedup from 3 threads)
+$ ./mandelbrot -t 4 --view 2
+[mandelbrot serial]:            [288.252] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [110.473] ms
+Wrote image file mandelbrot-thread.ppm
+                                (2.61x speedup from 4 threads)
+</code></pre><p class="part" data-startline="65" data-endline="65" data-position="2400" data-size="0"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/tx1Ws2N.jpg" alt="" class="" data-position="2400" data-size="36" loading="lazy"></p><hr><h3 class="part" data-startline="70" data-endline="70" id="-Q1-Is-speedup-linear-in-the-number-of-threads-used-In-your-writeup-hypothesize-why-this-is-or-is-not-the-case" data-id="-Q1-Is-speedup-linear-in-the-number-of-threads-used-In-your-writeup-hypothesize-why-this-is-or-is-not-the-case"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q1-Is-speedup-linear-in-the-number-of-threads-used-In-your-writeup-hypothesize-why-this-is-or-is-not-the-case" title="-Q1-Is-speedup-linear-in-the-number-of-threads-used-In-your-writeup-hypothesize-why-this-is-or-is-not-the-case" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="2470" data-size="115"> Q1: Is speedup linear in the number of threads used? In your writeup hypothesize why this is (or is not) the case?</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="71" data-endline="72" data-position="2588" data-size="0"><font color="#3CB371"><span data-position="2589" data-size="57">Hint: take a careful look at the three-thread data-point.</span><br>
+</font></p><div class="alert alert-info part" data-startline="74" data-endline="76" data-position="2656" data-size="128">
+<ul>
+<li class="" data-startline="75" data-endline="75" data-position="2666" data-size="0"><span data-position="2666" data-size="69">在VIEW 1中，speedup隨著number of threads上升並沒有線性成長，反而在number of threads=3下降</span></li>
+<li class="" data-startline="76" data-endline="76" data-position="2738" data-size="0"><span data-position="2738" data-size="42">在VIEW 2中，speedup隨著number of threads上升有線性成長</span></li>
+</ul>
+</div><p class="part" data-startline="79" data-endline="80" data-position="2786" data-size="0"><span data-position="2786" data-size="2">在 </span><code data-position="2789" data-size="19">workerThreadStart()</code><span data-position="2809" data-size="19"> 中，每一個 thread 都會執行 </span><code data-position="2829" data-size="18">mandelbrotSerial()</code><br>
+<span data-position="2850" data-size="2">而 </span><code data-position="2853" data-size="18">mandelbrotSerial()</code><span data-position="2872" data-size="14"> 會在for迴圈重複呼叫到 </span><code data-position="2887" data-size="8">mandel()</code></p><p class="part" data-startline="82" data-endline="83" data-position="2898" data-size="0"><span data-position="2898" data-size="4">看如下 </span><code data-position="2903" data-size="8">mandel()</code><span data-position="2913" data-size="20"> 函式中，可以發現決定for迴圈的次數是</span><br>
+<code data-position="2935" data-size="43">if (z_re * z_re + z_im * z_im &gt; 4.f) break;</code><span data-position="2979" data-size="5"> 這個條件</span></p><pre class="part" data-startline="85" data-endline="104" data-position="2986"><code class="cpp hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span></div><div class="code"><span class="token keyword">static</span> <span class="token keyword">inline</span> <span class="token keyword">int</span> <span class="token function">mandel</span><span class="token punctuation">(</span><span class="token keyword">float</span> c_re<span class="token punctuation">,</span> <span class="token keyword">float</span> c_im<span class="token punctuation">,</span> <span class="token keyword">int</span> count<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">float</span> z_re <span class="token operator">=</span> c_re<span class="token punctuation">,</span> z_im <span class="token operator">=</span> c_im<span class="token punctuation">;</span>
+  <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>z_re <span class="token operator">*</span> z_re <span class="token operator">+</span> z_im <span class="token operator">*</span> z_im <span class="token operator">&gt;</span> <span class="token number">4.f</span><span class="token punctuation">)</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">float</span> new_re <span class="token operator">=</span> z_re <span class="token operator">*</span> z_re <span class="token operator">-</span> z_im <span class="token operator">*</span> z_im<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> new_im <span class="token operator">=</span> <span class="token number">2.f</span> <span class="token operator">*</span> z_re <span class="token operator">*</span> z_im<span class="token punctuation">;</span>
+    z_re <span class="token operator">=</span> c_re <span class="token operator">+</span> new_re<span class="token punctuation">;</span>
+    z_im <span class="token operator">=</span> c_im <span class="token operator">+</span> new_im<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</div></div></code></pre><p class="part" data-startline="105" data-endline="106" data-position="3348" data-size="0"><strong data-position="3348" data-size="0"><span data-position="3350" data-size="41">在 8 位元灰階圖片中，0 表示黑色，最大值 255 則表示白色，數值越大顏色越淺</span></strong><br>
+<strong data-position="3394" data-size="0"><span data-position="3396" data-size="53">所以我發現，當 count=256 時， i 可能為 0~255 中任一數，其中數值大小決定該像素顏色深淺</span></strong></p><p class="part" data-startline="108" data-endline="113" data-position="3453" data-size="0"><span data-position="3453" data-size="18">再比較VIEW 1和 VIEW 2:</span><br>
+<img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/jzjx6af.jpg" alt="" class="" data-position="3472" data-size="36" loading="lazy"><br>
+<span data-position="3509" data-size="41">可以明顯看出 VIEW 1 的淺色像素遠比 View2 來得多且集中(集中在中間)</span><br>
+<span data-position="3551" data-size="28">接著我們分別來看3個thread計算執行的內容(如下圖)</span><br>
+<span data-position="3580" data-size="19">thread1 所計算的image內容</span><strong data-position="3599" data-size="0"><span data-position="3601" data-size="8">淺色像素多且集中</span></strong><br>
+<strong data-position="3612" data-size="0"><span data-position="3614" data-size="37">因此我認為是 thread1 拖垮整體執行速度，導致 speedup 下降</span></strong></p><p class="part" data-startline="115" data-endline="115" data-position="3655" data-size="0"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/pCKFAdj.jpg" alt="" class="" data-position="3655" data-size="36" loading="lazy"></p><div class="alert alert-info part" data-startline="117" data-endline="120" data-position="3693" data-size="188">
+<p data-position="3701" data-size="0"><span data-position="3701" data-size="46">Hypothesize: 每個 thread 的工作量與其負責區域所含有的淺色像素數量有關。</span><br>
+<span data-position="3773" data-size="58">         當 number of threads=3 時，thread1 會被分配到淺色像素多且集中的區域，</span><br>
+<span data-position="3857" data-size="20">         導致整體執行速度不佳。</span></p>
+</div><hr><h3 class="part" data-startline="124" data-endline="124" id="-Q2-How-do-your-measurements-explain-the-speedup-graph-you-previously-created" data-id="-Q2-How-do-your-measurements-explain-the-speedup-graph-you-previously-created"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q2-How-do-your-measurements-explain-the-speedup-graph-you-previously-created" title="-Q2-How-do-your-measurements-explain-the-speedup-graph-you-previously-created" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="3913" data-size="79"> Q2: How do your measurements explain the speedup graph you previously created?</span></font></h3><font color="#3CB371">
+</font><ul class="part" data-startline="127" data-endline="128">
+<li class="" data-startline="127" data-endline="128" data-position="4005" data-size="0"><strong data-position="4005" data-size="0"><font color="#082567" size="4"><span data-position="4036" data-size="18">number of thread=2</span></font></strong></li>
+</ul><p class="part" data-startline="129" data-endline="129" data-position="4065" data-size="0"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/yZmO08H.jpg" alt="" class="" data-position="4065" data-size="36" loading="lazy"></p><pre class="part" data-startline="130" data-endline="139" data-position="4102"><code>$ ./mandelbrot -t 2
+[mandelbrot serial]:            [462.669] ms
+Wrote image file mandelbrot-serial.ppm
+Thread 0: [262.9549] ms
+Thread 1: [263.1731] ms
+[mandelbrot thread]:            [263.524] ms
+Wrote image file mandelbrot-thread.ppm
+                                (1.76x speedup from 2 threads)
+</code></pre><ul class="part" data-startline="140" data-endline="141">
+<li class="" data-startline="140" data-endline="141" data-position="4411" data-size="0"><strong data-position="4411" data-size="0"><font color="#082567" size="4"><span data-position="4442" data-size="18">number of thread=3</span></font></strong></li>
+</ul><p class="part" data-startline="142" data-endline="142" data-position="4471" data-size="0"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/pCKFAdj.jpg" alt="" class="" data-position="4471" data-size="36" loading="lazy"></p><pre class="part" data-startline="143" data-endline="153" data-position="4508"><code>$ ./mandelbrot -t 3
+[mandelbrot serial]:            [461.782] ms
+Wrote image file mandelbrot-serial.ppm
+Thread 0: [94.1784] ms
+Thread 2: [94.9320] ms
+Thread 1: [286.3419] ms
+[mandelbrot thread]:            [286.568] ms
+Wrote image file mandelbrot-thread.ppm
+                                (1.61x speedup from 3 threads)
+</code></pre><ul class="part" data-startline="154" data-endline="155">
+<li class="" data-startline="154" data-endline="155" data-position="4839" data-size="0"><strong data-position="4839" data-size="0"><font color="#082567" size="4"><span data-position="4870" data-size="18">number of thread=4</span></font></strong></li>
+</ul><p class="part" data-startline="156" data-endline="156" data-position="4899" data-size="0"><img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/yIgilbF.jpg" alt="" class="" data-position="4899" data-size="36" loading="lazy"></p><pre class="part" data-startline="158" data-endline="169" data-position="4937"><code>$ ./mandelbrot -t 4
+[mandelbrot serial]:            [474.807] ms
+Wrote image file mandelbrot-serial.ppm
+Thread 3: [45.8921] ms
+Thread 0: [66.6695] ms
+Thread 1: [194.6871] ms
+Thread 2: [206.5401] ms
+[mandelbrot thread]:            [219.570] ms
+Wrote image file mandelbrot-thread.ppm
+                                (2.16x speedup from 4 threads)
+</code></pre><p class="part" data-startline="171" data-endline="176" data-position="5291" data-size="0"><span data-position="5291" data-size="25">在 number of thread=3 可以看出</span><br>
+<span data-position="5317" data-size="35">thread1 執行時間也是比 thread0 和 thread2 久</span><br>
+<span data-position="5353" data-size="19">thread1 所計算的image內容</span><strong data-position="5372" data-size="0"><span data-position="5374" data-size="8">淺色像素多且集中</span></strong><br>
+<strong data-position="5385" data-size="0"><span data-position="5387" data-size="33">因此 thread1 拖垮整體執行速度，導致 speedup 下降</span></strong><br>
+<span data-position="5423" data-size="27">在 number of threads=4 也可以看出</span><br>
+<strong data-position="5451" data-size="0"><span data-position="5453" data-size="27">thread1 和 thread2是主要的執行速度瓶頸</span></strong></p><br><p class="part" data-startline="180" data-endline="181" data-position="5490" data-size="0"><span data-position="5490" data-size="32">接著看 VIEW 2 , number of threads=3</span><br>
+<img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/dxmF3Kd.jpg" alt="" class="" data-position="5523" data-size="36" loading="lazy"></p><pre class="part" data-startline="182" data-endline="192" data-position="5560"><code>$ ./mandelbrot -t 3 --view 2
+[mandelbrot serial]:            [297.046] ms
+Wrote image file mandelbrot-serial.ppm
+Thread 2: [82.0762] ms
+Thread 1: [87.8727] ms
+Thread 0: [134.4979] ms
+[mandelbrot thread]:            [134.589] ms
+Wrote image file mandelbrot-thread.ppm
+                                (2.21x speedup from 3 threads)
+</code></pre><p class="part" data-startline="193" data-endline="196" data-position="5898" data-size="0"><span data-position="5898" data-size="48">相對來說 VIEW 2的 thread0 執行時間也是比 thread1 和 thread2 久</span><br>
+<span data-position="5947" data-size="19">(VIEW 2 淺色像素主要在最上面)</span><br>
+<span data-position="5967" data-size="17">但因為淺色像素在整體是相對分散許多</span><br>
+<span data-position="5985" data-size="51">因此執行速度瓶頸雖是 thread0，但不至於拖垮整體執行速度，還是可以看出線性成長的 speedup</span></p><div class="alert alert-info part" data-startline="198" data-endline="200" data-position="6038" data-size="93">
+<p data-position="6046" data-size="0"><span data-position="6046" data-size="48">A: 在 VIEW 1，speedup隨著number of threads上升不會有線性成長，</span><br>
+<span data-position="6100" data-size="27">  是因每個 thread 工作量分配極度不均的關係。</span></p>
+</div><hr><h3 class="part" data-startline="205" data-endline="205" id="-Q3-In-your-write-up-describe-your-approach-to-parallelization-and-report-the-final-4-thread-speedup-obtained" data-id="-Q3-In-your-write-up-describe-your-approach-to-parallelization-and-report-the-final-4-thread-speedup-obtained"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q3-In-your-write-up-describe-your-approach-to-parallelization-and-report-the-final-4-thread-speedup-obtained" title="-Q3-In-your-write-up-describe-your-approach-to-parallelization-and-report-the-final-4-thread-speedup-obtained" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="6164" data-size="112"> Q3: In your write-up, describe your approach to parallelization and report the final 4-thread speedup obtained.</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="208" data-endline="210" data-position="6287" data-size="0"><span data-position="6287" data-size="36">用一開始的方法，由上到下均分成n個區塊來分配給n個threads計算執行</span><br>
+<span data-position="6324" data-size="32">但在 VIEW 1 由於淺色像素集中於同一區域導致工作量分配不均</span><br>
+<span data-position="6357" data-size="5">因此我將 </span><code data-position="6363" data-size="19">workerThreadStart()</code><span data-position="6383" data-size="6">修改成如下:</span></p><pre class="part" data-startline="212" data-endline="219" data-position="6391"><code class="cpp hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span></div><div class="code"><span class="token keyword">void</span> <span class="token function">workerThreadStart</span><span class="token punctuation">(</span>WorkerArgs <span class="token operator">*</span><span class="token keyword">const</span> args<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> args<span class="token operator">-&gt;</span>threadId<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> args<span class="token operator">-&gt;</span>height<span class="token punctuation">;</span> i <span class="token operator">+=</span> args<span class="token operator">-&gt;</span>numThreads<span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token function">mandelbrotSerial</span><span class="token punctuation">(</span>args<span class="token operator">-&gt;</span>x0<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>y0<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>x1<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>y1<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>width<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>height<span class="token punctuation">,</span> i<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>maxIterations<span class="token punctuation">,</span> args<span class="token operator">-&gt;</span>output<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</div></div></code></pre><p class="part" data-startline="221" data-endline="225" data-position="6664" data-size="0"><span data-position="6664" data-size="3">我將 </span><code data-position="6668" data-size="19">workerThreadStart()</code><span data-position="6688" data-size="11">每一個thread執行</span><code data-position="6700" data-size="18">mandelbrotSerial()</code><span data-position="6719" data-size="17">時，傳入的 totalRows=1</span><br>
+<span data-position="6737" data-size="25">我以 number of threads=3為例:</span><br>
+<img src="./Parallel Programming @ NYCU - HW2 - HackMD_files/BWZou4h.jpg" alt="" class="" data-position="6763" data-size="36" loading="lazy"><br>
+<span data-position="6800" data-size="35">這樣能將原本淺色像素集中區域，3個thread都會被分到部分計算執行，</span><br>
+<span data-position="6836" data-size="11">如此能將工作量平均分配</span></p><ul class="part" data-startline="226" data-endline="227">
+<li class="" data-startline="226" data-endline="227" data-position="6850" data-size="0"><span data-position="6850" data-size="31">Final 4-thread speedup obtained</span><br>
+<span data-position="6882" data-size="7">執行結果如下:</span></li>
+</ul><pre class="part" data-startline="228" data-endline="241" data-position="6890"><code>$ ./mandelbrot -t 4
+[mandelbrot serial]:            [462.474] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [121.549] ms
+Wrote image file mandelbrot-thread.ppm
+                                (3.80x speedup from 4 threads)
+$ ./mandelbrot -t 4 --view 2
+[mandelbrot serial]:            [288.821] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [76.039] ms
+Wrote image file mandelbrot-thread.ppm
+                                (3.80x speedup from 4 threads)
+</code></pre><div class="alert alert-info part" data-startline="243" data-endline="245" data-position="7409" data-size="85">
+<p data-position="7417" data-size="0"><span data-position="7417" data-size="36">View 1: 3.80x speedup from 4 threads</span><br>
+<span data-position="7454" data-size="36">View 2: 3.80x speedup from 4 threads</span></p>
+</div><hr><h3 class="part" data-startline="249" data-endline="249" id="-Q4-Now-run-your-improved-code-with-eight-threads-Is-performance-noticeably-greater-than-when-running-with-four-threads-Why-or-why-not" data-id="-Q4-Now-run-your-improved-code-with-eight-threads-Is-performance-noticeably-greater-than-when-running-with-four-threads-Why-or-why-not"><a class="anchor hidden-xs" href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q4-Now-run-your-improved-code-with-eight-threads-Is-performance-noticeably-greater-than-when-running-with-four-threads-Why-or-why-not" title="-Q4-Now-run-your-improved-code-with-eight-threads-Is-performance-noticeably-greater-than-when-running-with-four-threads-Why-or-why-not" smoothhashscroll=""><span class="octicon octicon-link"></span></a><font color="#3CB371"><span data-position="7526" data-size="138"> Q4: Now run your improved code with eight threads. Is performance noticeably greater than when running with four threads? Why or why not?</span></font></h3><font color="#3CB371">
+</font><p class="part" data-startline="250" data-endline="251" data-position="7666" data-size="0"><font color="#3CB371"><span data-position="7667" data-size="64">(Notice that the workstation server provides 4 cores 4 threads.)</span><br>
+</font></p><p class="part" data-startline="253" data-endline="253" data-position="7741" data-size="0"><span data-position="7741" data-size="27">當 number of threads=8 執行如下:</span></p><pre class="part" data-startline="254" data-endline="267" data-position="7769"><code>$ ./mandelbrot -t 8
+[mandelbrot serial]:            [461.297] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [123.937] ms
+Wrote image file mandelbrot-thread.ppm
+                                (3.72x speedup from 8 threads)
+$ ./mandelbrot -t 8 --view 2
+[mandelbrot serial]:            [289.132] ms
+Wrote image file mandelbrot-serial.ppm
+[mandelbrot thread]:            [76.669] ms
+Wrote image file mandelbrot-thread.ppm
+                                (3.77x speedup from 8 threads)
+</code></pre><p class="part" data-startline="269" data-endline="269" data-position="8288" data-size="0"><strong data-position="8288" data-size="0"><span data-position="8290" data-size="55">可以發現 number of threads=8 會比 number of threads=4 執行還要慢一些</span></strong></p><p class="part" data-startline="271" data-endline="275" data-position="8349" data-size="0"><span data-position="8349" data-size="41">我認為當number of threads=8時，speedup沒有上升反而下降，</span><br>
+<span data-position="8391" data-size="11">是因為工作站提供的是 </span><em data-position="8402" data-size="0"><span data-position="8403" data-size="18">4 核心 4 執行序的 Server</span></em><span data-position="8422" data-size="1">，</span><br>
+<span data-position="8424" data-size="43">當使用 8 個 threads 時， core 被分配到的threads就可能會大於1</span><br>
+<span data-position="8468" data-size="8">這時執行會多了 </span><strong data-position="8476" data-size="0"><span data-position="8478" data-size="25">context switch 的 overhead</span></strong><br>
+<span data-position="8506" data-size="40">這也造成了整體執行時間比 number of threads=4 還要久的原因。</span></p><hr><div class="alert alert-info part" data-startline="277" data-endline="279" data-position="8551" data-size="33">
+<p data-position="8559" data-size="0"><span data-position="8559" data-size="10">Good Work!</span></p>
+<blockquote class="">
+<p data-position="8571" data-size="0"><small data-position="8571" data-size="9"><i class="fa fa-user"></i> TA</small></p>
+</blockquote>
+</div></div>
+
+    <div class="document-footer container-fluid hmd-pb-2 hidden-print">
+        <hr>
+        <div class="footer hmd-flex hmd-items-center">
+    <div class="footer__published-by hmd-flex-grow-1">
+        <span>發表於</span> <strong><a href="https://hackmd.io/" target="_blank"><i class="fa fa-file-text"></i> <span class="brand">HackMD</span></a></strong>
+    </div>
+    <div class="footer__views" style="margin-right: 18px;">
+        <i class="fa fa-eye"></i> <span class="ui-viewcount" title="60">60</span>
+    </div>
+    <div class="footer__views">
+    
+        <span class="community-button ui-like" data-toggle="tooltip" data-placement="top" title="" data-original-title="讚賞"><i class="fa fa-fw"></i><span class="text hidden-xs">讚賞</span><span class="count"></span></span>
+        <span class="community-button ui-bookmark" data-toggle="tooltip" data-placement="top" title="" data-original-title="收藏"><i class="fa fa-fw"></i><span class="text hidden-xs"><span class="bookmark-label">收藏</span><span class="bookmarked-label">已收藏</span></span></span>
+        
+            <div class="ui-notification dropup dropdown ">
+                <span id="notificationLabel" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="community-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="訂閱">
+                        <i class="fa fa-fw fa-bell"></i><span class="text hidden-xs">已訂閱<i class="fa fa-fw fa-angle-down"></i><i class="fa fa-fw fa-angle-up"></i></span>
+                    </div>
+                </span>
+                <ul class="dropdown-menu pull-right" aria-labelledby="notificationLabel">
+                    <li class="ui-notification-watch notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-bell fa-fw"></i><div class="info"><div class="title">所有通知</div><div class="description">當有任何變更時將會收到通知</div></div></li>
+                    <li class="ui-notification-mention notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-at fa-fw"></i><div class="info"><div class="title">提及我</div><div class="description">當有人提及我時才會收到通知</div></div></li>
+                    <li class="divider"></li>
+                    <!--
+                        <li class="ui-notification-list notification-menu-item"><span><a href="#"><i class="fa fa-list-ul fa-fw"></i>我的訂閱列表</a></span></li>
+                    -->
+                    <li class="ui-notification-unsubscribe notification-menu-item"><i class="fa fa-bell-slash-o fa-fw"></i>取消訂閱</li>
+                </ul>
+                <span class="ui-notification-subscribe community-button"><i class="fa fa-fw fa-bell-o"></i><span class="text hidden-xs">訂閱</span></span>
+            </div>
+        
+    
+    </div>
+</div>
+
+    </div>
+
+    <div class="ui-community unselectable hidden-print hidden-xs" style="display: none; left: 529.5px;">
+        
+            <div class="community-button ui-like" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="讚賞"><i class="fa fa-fw"></i><div class="count"></div></div>
+            <div class="community-button ui-bookmark" title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="收藏"><i class="fa fa-fw"></i></div>
+            
+                <div class="ui-notification dropup dropdown " title="" data-toggle="tooltip" data-placement="right" data-offset="0,5" data-original-title="訂閱">
+                    <div id="notificationLabel" class="community-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="ui-notification-status"><i class="fa fa-fw fa-bell"></i></div>
+                    </div>
+                    <ul class="dropdown-menu left" aria-labelledby="notificationLabel">
+                        <li class="ui-notification-watch notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-bell fa-fw"></i><div class="info"><div class="title">所有通知</div><div class="description">當有任何變更時將會收到通知</div></div></li>
+                        <li class="ui-notification-mention notification-menu-item "><i class="fa fa-check fa-fw"></i><i class="fa fa-at fa-fw"></i><div class="info"><div class="title">提及我</div><div class="description">當有人提及我時才會收到通知</div></div></li>
+                        <li class="divider"></li>
+                        <!--
+                           <li class="ui-notification-list notification-menu-item"><span><a href="#"><i class="fa fa-list-ul fa-fw"></i>我的訂閱列表</a></span></li>
+                        -->
+                        <li class="ui-notification-unsubscribe notification-menu-item"><i class="fa fa-bell-slash-o fa-fw"></i>取消訂閱</li>
+                    </ul>
+                    <div class="ui-notification-subscribe community-button"><i class="fa fa-fw fa-bell-o"></i></div>
+                </div>
+            
+        
+    </div>
+
+    <div class="ui-toc dropup unselectable hidden-print" style="display: none; left: 535.141px;">
+        <div class="pull-left dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="https://hackmd.io/@chungmin-yu/pp-hw2#" role="button" aria-haspopup="true" aria-expanded="false" title="目錄">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel"><div class="toc"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#Parallel-Programming--NYCU---HW2" title="Parallel Programming @ NYCU - HW2" smoothhashscroll="">Parallel Programming @ NYCU - HW2</a><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221 余忠旻" smoothhashscroll="">0716221 余忠旻</a></li>
+</ul>
+</li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-In-your-write-up-produce-a-graph-of-speedup-compared-to-the-reference-sequential-implementation-as-a-function-of-the-number-of-threads-used-FOR-VIEW-1" title=" In your write-up, produce a graph of speedup compared to the reference sequential implementation as a function of the number of threads used FOR VIEW 1." smoothhashscroll=""> In your write-up, produce a graph of speedup compared to the reference sequential implementation as a function of the number of threads used FOR VIEW 1.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q1-Is-speedup-linear-in-the-number-of-threads-used-In-your-writeup-hypothesize-why-this-is-or-is-not-the-case" title=" Q1: Is speedup linear in the number of threads used? In your writeup hypothesize why this is (or is not) the case?" smoothhashscroll=""> Q1: Is speedup linear in the number of threads used? In your writeup hypothesize why this is (or is not) the case?</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q2-How-do-your-measurements-explain-the-speedup-graph-you-previously-created" title=" Q2: How do your measurements explain the speedup graph you previously created?" smoothhashscroll=""> Q2: How do your measurements explain the speedup graph you previously created?</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q3-In-your-write-up-describe-your-approach-to-parallelization-and-report-the-final-4-thread-speedup-obtained" title=" Q3: In your write-up, describe your approach to parallelization and report the final 4-thread speedup obtained." smoothhashscroll=""> Q3: In your write-up, describe your approach to parallelization and report the final 4-thread speedup obtained.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q4-Now-run-your-improved-code-with-eight-threads-Is-performance-noticeably-greater-than-when-running-with-four-threads-Why-or-why-not" title=" Q4: Now run your improved code with eight threads. Is performance noticeably greater than when running with four threads? Why or why not?" smoothhashscroll=""> Q4: Now run your improved code with eight threads. Is performance noticeably greater than when running with four threads? Why or why not?</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://hackmd.io/@chungmin-yu/pp-hw2#">全部展開</a><a class="back-to-top" href="https://hackmd.io/@chungmin-yu/pp-hw2#">回到頂部</a><a class="go-to-bottom" href="https://hackmd.io/@chungmin-yu/pp-hw2#">移至底部</a></div></ul>
+        </div>
+    </div>
+
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print affix" data-spy="affix" style="top: 87px; left: 283.5px; width: 571.5px;"><div class="toc"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#Parallel-Programming--NYCU---HW2" title="Parallel Programming @ NYCU - HW2" smoothhashscroll="">Parallel Programming @ NYCU - HW2</a><ul class="nav">
+<li class="invisable-node"><ul class="nav">
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#0716221-%E4%BD%99%E5%BF%A0%E6%97%BB" title="0716221 余忠旻" smoothhashscroll="">0716221 余忠旻</a></li>
+</ul>
+</li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-In-your-write-up-produce-a-graph-of-speedup-compared-to-the-reference-sequential-implementation-as-a-function-of-the-number-of-threads-used-FOR-VIEW-1" title=" In your write-up, produce a graph of speedup compared to the reference sequential implementation as a function of the number of threads used FOR VIEW 1." smoothhashscroll=""> In your write-up, produce a graph of speedup compared to the reference sequential implementation as a function of the number of threads used FOR VIEW 1.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q1-Is-speedup-linear-in-the-number-of-threads-used-In-your-writeup-hypothesize-why-this-is-or-is-not-the-case" title=" Q1: Is speedup linear in the number of threads used? In your writeup hypothesize why this is (or is not) the case?" smoothhashscroll=""> Q1: Is speedup linear in the number of threads used? In your writeup hypothesize why this is (or is not) the case?</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q2-How-do-your-measurements-explain-the-speedup-graph-you-previously-created" title=" Q2: How do your measurements explain the speedup graph you previously created?" smoothhashscroll=""> Q2: How do your measurements explain the speedup graph you previously created?</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q3-In-your-write-up-describe-your-approach-to-parallelization-and-report-the-final-4-thread-speedup-obtained" title=" Q3: In your write-up, describe your approach to parallelization and report the final 4-thread speedup obtained." smoothhashscroll=""> Q3: In your write-up, describe your approach to parallelization and report the final 4-thread speedup obtained.</a></li>
+<li><a href="https://hackmd.io/@chungmin-yu/pp-hw2#-Q4-Now-run-your-improved-code-with-eight-threads-Is-performance-noticeably-greater-than-when-running-with-four-threads-Why-or-why-not" title=" Q4: Now run your improved code with eight threads. Is performance noticeably greater than when running with four threads? Why or why not?" smoothhashscroll=""> Q4: Now run your improved code with eight threads. Is performance noticeably greater than when running with four threads? Why or why not?</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="https://hackmd.io/@chungmin-yu/pp-hw2#">全部展開</a><a class="back-to-top" href="https://hackmd.io/@chungmin-yu/pp-hw2#">回到頂部</a><a class="go-to-bottom" href="https://hackmd.io/@chungmin-yu/pp-hw2#">移至底部</a></div></div>
+    
+
+    <div class="clearfix"></div>
+
+    <!-- signin modal -->
+<div class="modal fade signin-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 10px; right: 20px; position: absolute;"><span aria-hidden="true">×</span></button>
+            
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<h3>登入</h3>
+
+<form data-toggle="validator" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" novalidate="true" data-bitwarden-watching="1">
+    <div class="hmd-dn"><input type="hidden" name="_csrf" value="amMBfSeu-9W3Duv9E2doUwMBrmCzS8s2TarY"></div>
+    <div class="hmd-dn"><input type="hidden" name="create_team" value="false"></div>
+    <div class="hmd-dn"><input type="hidden" name="create_paid_team" value="false"></div>
+    <div class="form-group  ">
+        <label for="email" class="control-label">Email</label>
+        <label for="inputEmail" class="control-label pull-right errors">
+            
+        </label>
+        <span class="help-block control-label with-errors pull-right" style="display: inline;"></span>
+        <div class="input-block">
+            
+                <input type="email" class="form-control" name="email" placeholder="您的 Email" required="" autocomplete="email">
+            
+            <span class="error-sign"></span>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label for="password" class="control-label">密碼</label>
+        <label for="inputPassword" class="control-label pull-right errors">
+            
+        </label>
+        <span class="help-block control-label with-errors pull-right" style="display: inline;"></span>
+        <div class="input-block">
+            <input type="password" class="form-control" name="password" placeholder="您的密碼" required="" autocomplete="current-password">
+            <span class="error-sign"></span>
+            
+                <span class="control-label pull-right" style="font-size: 13px; margin-top: 5px;"><a href="https://hackmd.io/settings/forgotPassword" style="text-decoration: underline;">忘記密碼</a></span>
+            
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-top: 15px; margin-bottom: 0px;">
+        
+            <input type="submit" class="btn btn-success btn-large disabled" formaction="https://hackmd.io/login" value="登入">
+        
+
+        
+    </div>
+</form>
+
+
+
+
+
+
+
+
+    
+        <p class="separator">或是</p>
+    
+
+    
+        <p>繼續登入，代表您同意<a href="https://hackmd.io/s/terms" target="_blank">服務條款</a>。</p>
+    
+
+    
+
+
+
+
+
+
+
+
+ 
+
+
+
+<script id="gsi-client" src="./Parallel Programming @ NYCU - HW2 - HackMD_files/client" async="" defer="" nonce=""></script>
+<script nonce="">
+    function handleCredentialResponse(response) {
+        const form = document.getElementById('sign-in-with-google-form')
+        form.children.credential.value = response.credential
+        form.children.method.value = location.href.toLowerCase() === 'https://hackmd.io/settings#general' ? 'merge' : 'login'
+        form.submit()
+    }
+    var GSI_READY = new Promise(function (resolve) {
+        function initialize () {
+            google.accounts.id.initialize({
+                client_id: '911617723593-drikdibvvn63slfd6kbqigo8ql1no55s.apps.googleusercontent.com',
+                callback: handleCredentialResponse
+            })
+            const loginPath = 'https://hackmd.io/login'
+            const joinPath = 'https://hackmd.io/join'
+            const renderButton = function () {
+                google.accounts.id.renderButton(
+                    document.getElementById('sign-in-with-google-button'),
+                    { type: 'standard', width: 250 }
+                )
+            }
+            if (location.href.toLowerCase() === loginPath || location.href.toLowerCase() === joinPath) {
+                renderButton()
+            } else {
+                $('.signin-modal').one('shown.bs.modal', function () {
+                    renderButton()
+                })
+            }
+            resolve()
+        }
+
+        window.addEventListener('load', function () { initialize() })
+    })
+</script>
+<form class="hidden" id="sign-in-with-google-form" action="https://hackmd.io/auth/google" method="post">
+    <input type="hidden" name="credential">
+    <input type="hidden" name="method">
+</form>
+ 
+
+<div class="social-buttons-container">
+    
+    <div id="sign-in-with-google-button"></div>
+    
+    
+    <a href="https://hackmd.io/auth/facebook" class="btn btn-lg btn-block btn-social btn-facebook">
+        <i class="fa fa-facebook"></i> 透過 Facebook 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/twitter" class="btn btn-lg btn-block btn-social btn-twitter">
+        <i class="fa fa-twitter"></i> 透過 Twitter 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/github" class="btn btn-lg btn-block btn-social btn-github">
+        <i class="fa fa-github"></i> 透過 GitHub 登入
+    </a>
+    
+    
+    <a href="https://hackmd.io/auth/dropbox" class="btn btn-lg btn-block btn-social btn-dropbox">
+        <i class="fa fa-dropbox"></i> 透過 Dropbox 登入
+    </a>
+    
+    
+    
+</div>
+
+
+
+
+
+    <div>
+        <p>第一次使用 HackMD？ <a href="https://hackmd.io/join">註冊</a></p>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+    
+    <script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/js"></script>
+    <script nonce="">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        let userid = (document.cookie.match('(^|; )userid=([^;]*)')||0)[2];
+        gtag('config', 'UA-60728495-1', {'user_id': userid});
+        
+    </script>
+
+
+    
+<script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/bundle.min.js.下載" crossorigin="anonymous"></script>
+<script nonce="">Sentry.init({ dsn: 'https://73410f1915d84abc8b2dd1f1aabd1c82@sentry.hackmd.dev/4', environment: 'production', integrations: function (intrus) { return intrus.filter(function (itr) { return itr.name !== 'TryCatch' }) } });</script>
+
+
+    
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLW9Z3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+
+    <script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/i18n.js.下載"></script>
+     <script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/font-vendor.f713c28932303455912c.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/common-vendor.5fa67d7f53b925f0505d.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/pretty-vendor.ab29655f5710763afd11.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/pretty-common.f105045e756f7bd3d15c.js.下載" defer="defer"></script><script src="./Parallel Programming @ NYCU - HW2 - HackMD_files/pretty.e86a95788bf66b2682c0.js.下載" defer="defer"></script>
+
+    
+
+
+
+<div class="ReactModalPortal"></div><div class="ReactModalPortal"></div><div class="ReactModalPortal"></div></body></html>
