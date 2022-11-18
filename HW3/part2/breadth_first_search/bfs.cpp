@@ -11,8 +11,6 @@
 
 #define ROOT_NODE_ID 0
 #define NOT_VISITED_MARKER -1
-#define VERBOSE
-#define PADDING 3
 
 void vertex_set_clear(vertex_set *list)
 {
@@ -36,8 +34,6 @@ void top_down_step(
     int *distances)
 {
     // add by myself
-    vertex_set local_new_frontier[frontier->count][PADDING];
-
     #pragma omp parallel for schedule(static, 1)
     //
     for (int i = 0; i < frontier->count; i++)
@@ -49,12 +45,11 @@ void top_down_step(
                            ? g->num_edges
                            : g->outgoing_starts[node + 1];
 
-        // add by myself
-        vertex_set_init(&(local_new_frontier[i][0]), g->num_nodes);
-        //
+        
+        int local_count = 0;
+        int local_frontier[g->num_ver]
 
         // attempt to add all neighbors to the new frontier
-        #pragma omp parallel for schedule(static, 1)
         for (int neighbor = start_edge; neighbor < end_edge; neighbor++)
         {
             int outgoing = g->outgoing_edges[neighbor];
@@ -68,36 +63,26 @@ void top_down_step(
 
             // add by myself
             // __sync_bool_compare_and_swap (type *ptr, type oldval type newval, ...)
+            /*if (distances[outgoing] == NOT_VISITED_MARKER)
+            {
+                distances[outgoing] = distances[node] + 1;*/
             if (__sync_bool_compare_and_swap(&distances[outgoing], NOT_VISITED_MARKER, distances[node] + 1))
             {
                 /*int index;
-                #pragma omp critical
                 index = new_frontier->count++;*/
-                int index = local_new_frontier[i][0].count++;
-                local_new_frontier[i][0].vertices[index] = outgoing;
+                //int index = new_frontier->count++;
+                //new_frontier->vertices[index] = outgoing;
                 //printf("%d %d %d\n", i, index, outgoing);
 
                 
                 // type __sync_fetch_and_add (type *ptr, type value, ...)
-                //int index = __sync_fetch_and_add(&(new_frontier->count), 1);
-                //new_frontier->vertices[index] = outgoing;
-            }
-            //
-        }
-    }
-
-    for (int i = 0; i < frontier->count; ++i)
-    {
-        //printf("%d/%d %d\n", i, frontier->count, local_new_frontier[i][0].count);
-        for (int j = 0; j < local_new_frontier[i][0].count; ++j)
-        {
-            //printf("%d:%d/%d %d %d\n", i, local_new_frontier[i][0].vertices[j], j, new_frontier->count, local_new_frontier[i][0].count);
-            new_frontier->vertices[new_frontier->count] = local_new_frontier[i][0].vertices[j];
-            //printf("!!!\n");
-            new_frontier->count++;
-            //printf("%d:%d/%d %d\n", i, local_new_frontier[i][0].vertices[j], j, new_frontier->count);
-        }
-    }
+                int index = __sync_fetch_and_add(&(new_frontier->count), 1);
+                //local_count++;
+                new_frontier->vertices[index] = outgoing;
+            }                                                                                                                                                                                        
+            //                                                                                                                                                                                                                  
+        }     
+    }                                     
 }
 
 // Implements top-down BFS.
@@ -132,7 +117,6 @@ void bfs_top_down(Graph graph, solution *sol)
 
         vertex_set_clear(new_frontier);
 
-        //#pragma omp parallel
         top_down_step(graph, frontier, new_frontier, sol->distances);
 
 #ifdef VERBOSE

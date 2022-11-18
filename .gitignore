@@ -312,3 +312,6 @@ Temporary Items
 *.graph
 *.tar
 *.tgz
+*.m4a
+*.mp4
+*.mkv
