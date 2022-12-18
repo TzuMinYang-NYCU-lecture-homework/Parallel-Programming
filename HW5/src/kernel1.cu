@@ -4,21 +4,13 @@
 
 #define BLOCK_WITDH 16
 
-__global__ void mandelKernel(float* dlowerX, float* dlowerY, float* dstepX, float* dstepY, int* dresX, int *dimg, int *dmaxIterations) {
-    // To avoid error caused by the floating number, use the following pseudo code
-    //
-    // float x = lowerX + thisX * stepX;
-    // float y = lowerY + thisY * stepY;
-
-    // add by myself
-    int i = blockIdx.x * blockDim.x + threadIdx.x, j = blockIdx.y * blockDim.y + threadIdx.y;
-    float x = *dlowerX + i * *dstepX;
-    float y = *dlowerY + j * *dstepY;
-
-    int k;
+// add by myself
+__device__ int mandel(float x, float y, int maxIterations)
+{
     float z_re = x, z_im = y;
+    int k;
 
-    for (k = 0; k < *dmaxIterations; ++k)
+    for (k = 0; k < maxIterations; ++k)
     {
         if (z_re * z_re + z_im * z_im > 4.f) break;
 
@@ -28,7 +20,22 @@ __global__ void mandelKernel(float* dlowerX, float* dlowerY, float* dstepX, floa
         z_im = y + new_im;
     }
 
-    dimg[j * *dresX + i] = k;
+    return k;
+}
+//
+
+__global__ void mandelKernel(float* dlowerX, float* dlowerY, float* dstepX, float* dstepY, int* dresX, int* dimg, int* dmaxIterations) {
+    // To avoid error caused by the floating number, use the following pseudo code
+    //
+    // float x = lowerX + thisX * stepX;
+    // float y = lowerY + thisY * stepY;
+
+    // add by myself
+    int i = blockIdx.x * blockDim.x + threadIdx.x, j = blockIdx.y * blockDim.y + threadIdx.y;
+
+    float x = *dlowerX + i * *dstepX;
+    float y = *dlowerY + j * *dstepY;
+    dimg[j * *dresX + i] = mandel(x, y, *dmaxIterations);
     //
 }
 
