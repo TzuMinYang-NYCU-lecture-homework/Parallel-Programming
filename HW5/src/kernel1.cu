@@ -5,6 +5,7 @@
 #define BLOCK_WITDH 16
 
 // add by myself
+// copy from serial
 __device__ int mandel(float x, float y, int maxIterations)
 {
     float z_re = x, z_im = y;
@@ -24,18 +25,19 @@ __device__ int mandel(float x, float y, int maxIterations)
 }
 //
 
-__global__ void mandelKernel(float* dlowerX, float* dlowerY, float* dstepX, float* dstepY, int* dresX, int* dimg, int* dmaxIterations) {
+__global__ void mandelKernel(int* dimg, float lowerX, float lowerY, float stepX, float stepY, int resX, int maxIterations) {
     // To avoid error caused by the floating number, use the following pseudo code
     //
     // float x = lowerX + thisX * stepX;
     // float y = lowerY + thisY * stepY;
 
     // add by myself
+    // indexing, x is horizontal, y is vertical
     int i = blockIdx.x * blockDim.x + threadIdx.x, j = blockIdx.y * blockDim.y + threadIdx.y;
 
-    float x = *dlowerX + i * *dstepX;
-    float y = *dlowerY + j * *dstepY;
-    dimg[j * *dresX + i] = mandel(x, y, *dmaxIterations);
+    float x = lowerX + i * stepX;
+    float y = lowerY + j * stepY;
+    dimg[j * resX + i] = mandel(x, y, maxIterations);
     //
 }
 
@@ -46,34 +48,25 @@ void hostFE (float upperX, float upperY, float lowerX, float lowerY, int* img, i
     float stepY = (upperY - lowerY) / resY;
 
     // add by myself
-    int *temp_himg = (int*) malloc(sizeof(int) * resX * resY);
-    int *dimg, *dmaxIterations, *dresX;
-    float *dlowerX, *dlowerY, *dstepX, *dstepY;
+    int *temp_himg = (int*) malloc(sizeof(int) * resX * resY); // because of hw require
 
+    // declare gpu var.
+    int *dimg;
+
+    // allocate gpu memory
     cudaMalloc(&dimg, sizeof(int) * resX * resY);
-    cudaMalloc(&dlowerX, sizeof(float));
-    cudaMalloc(&dlowerY, sizeof(float));
-    cudaMalloc(&dstepX, sizeof(float));
-    cudaMalloc(&dstepY, sizeof(int));
-    cudaMalloc(&dstepY, sizeof(int));
-    cudaMalloc(&dresX, sizeof(int));
-    cudaMalloc(&dmaxIterations, sizeof(int));
 
-    cudaMemcpy(dlowerX, &lowerX, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dlowerY, &lowerY, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dstepX, &stepX, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dstepY, &stepY, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dresX, &resX, sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(dmaxIterations, &maxIterations, sizeof(int), cudaMemcpyHostToDevice);
+    // call gpu kernel func.
+    dim3 dimGrid(resX / BLOCK_WITDH, resY / BLOCK_WITDH), imBlock(BLOCK_WITDH, BLOCK_WITDH);
+    mandelKernel<<<dimGrid, imBlock>>>(dimg, lowerX, lowerY, stepX, stepY, resX, maxIterations);
 
-    dim3 dimGrid(resX / BLOCK_WITDH, resY / BLOCK_WITDH), dimBlock(BLOCK_WITDH, BLOCK_WITDH);
-    mandelKernel<<<dimGrid, dimBlock>>>(dlowerX, dlowerY, dstepX, dstepY, dresX, dimg, dmaxIterations);
-
+    // copy ans from gpu to host
     cudaMemcpy(temp_himg, dimg, sizeof(int) * resX * resY, cudaMemcpyDeviceToHost);
 
+    // copy data to result (because of hw require)
     memcpy(img, temp_himg, sizeof(int) * resX * resY);
 
-    cudaFree(dimg); cudaFree(dlowerX); cudaFree(dlowerY); 
-    cudaFree(dstepX); cudaFree(dstepY); cudaFree(dresX); cudaFree(dmaxIterations);
+    // free gpu memory
+    cudaFree(dimg);
     //
 }

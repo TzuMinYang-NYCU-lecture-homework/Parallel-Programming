@@ -5,6 +5,7 @@
 #define BLOCK_WITDH 16
 
 // add by myself
+// copy from serial
 __device__ int mandel(float x, float y, int maxIterations)
 {
     float z_re = x, z_im = y;
@@ -24,19 +25,21 @@ __device__ int mandel(float x, float y, int maxIterations)
 }
 //
 
-__global__ void mandelKernel(size_t* dpitch, float* dlowerX, float* dlowerY, float* dstepX, float* dstepY, int* dresX, int* dimg, int* dmaxIterations) {
+__global__ void mandelKernel(size_t pitch, int* dimg, float lowerX, float lowerY, float stepX, float stepY, int resX, int maxIterations) {
     // To avoid error caused by the floating number, use the following pseudo code
     //
     // float x = lowerX + thisX * stepX;
     // float y = lowerY + thisY * stepY;
 
     // add by myself
+    // indexing, x is horizontal, y is vertical
     int i = blockIdx.x * blockDim.x + threadIdx.x, j = blockIdx.y * blockDim.y + threadIdx.y;
 
-    float x = *dlowerX + i * *dstepX;
-    float y = *dlowerY + j * *dstepY;
+    float x = lowerX + i * stepX;
+    float y = lowerY + j * stepY;
+    // use this index because pitch memory
     // T* pElement = (T*)((char*)BaseAddress + Row * pitch) + Column;
-    *((int*)((char*)dimg + j * *dpitch) + i) = mandel(x, y, *dmaxIterations);
+    *((int*)((char*)dimg + j * pitch) + i) = mandel(x, y, maxIterations);
     //
 }
 
@@ -47,43 +50,33 @@ void hostFE (float upperX, float upperY, float lowerX, float lowerY, int* img, i
     float stepY = (upperY - lowerY) / resY;
 
     // add by myself
-    int *temp_himg;
+    int *temp_himg; // because of hw require
+
+    // allocate pinned-page host memory (because of hw require)
     // __host__​cudaError_t cudaHostAlloc ( void** pHost, size_t size, unsigned int  flags )
     cudaHostAlloc((void**) &temp_himg, sizeof(int) * resX * resY, cudaHostAllocDefault);
 
-    int *dimg, *dmaxIterations, *dresX;
-    float *dlowerX, *dlowerY, *dstepX, *dstepY;
+    // declare gpu var.
+    int *dimg;
 
-    size_t pitch, *dpitch;
+    // allocate pitch gpu memory (because of hw require), it will align 256 or 512, fast for hardware, useful for 2D or 3D picture
+    size_t pitch;
     // __host__​cudaError_t cudaMallocPitch ( void** devPtr, size_t* pitch, size_t width, size_t height )
     cudaMallocPitch((void**) &dimg, &pitch, sizeof(int) * resX, resY);
-    cudaMalloc(&dpitch, sizeof(size_t));
-    cudaMalloc(&dlowerX, sizeof(float));
-    cudaMalloc(&dlowerY, sizeof(float));
-    cudaMalloc(&dstepX, sizeof(float));
-    cudaMalloc(&dstepY, sizeof(int));
-    cudaMalloc(&dstepY, sizeof(int));
-    cudaMalloc(&dresX, sizeof(int));
-    cudaMalloc(&dmaxIterations, sizeof(int));
 
-    cudaMemcpy(dpitch, &pitch, sizeof(size_t), cudaMemcpyHostToDevice);
-    cudaMemcpy(dlowerX, &lowerX, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dlowerY, &lowerY, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dstepX, &stepX, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dstepY, &stepY, sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dresX, &resX, sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(dmaxIterations, &maxIterations, sizeof(int), cudaMemcpyHostToDevice);
-
+    // call gpu kernel func.
     dim3 dimGrid(resX / BLOCK_WITDH, resY / BLOCK_WITDH), dimBlock(BLOCK_WITDH, BLOCK_WITDH);
-    mandelKernel<<<dimGrid, dimBlock>>>(dpitch, dlowerX, dlowerY, dstepX, dstepY, dresX, dimg, dmaxIterations);
+    mandelKernel<<<dimGrid, dimBlock>>>(pitch, dimg, lowerX, lowerY, stepX, stepY, resX, maxIterations);
 
-    // __host__ cudaError_t cudaMemcpy2D(void *dst, size_t dpitch, const void *src, size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind);
+    // copy ans from gpu to host, pitch memory can't use "cudaMemcpy"
+    // __host__ cudaError_t cudaMemcpy2D(void st, size_t dpitch, const void *src, size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind);
     cudaMemcpy2D(temp_himg, sizeof(int) * resX, dimg, pitch, sizeof(int) * resX, resY, cudaMemcpyDeviceToHost);
 
+    // copy data to result (because of hw require)
     memcpy(img, temp_himg, sizeof(int) * resX * resY);
 
+    // free host&gpu memory
     cudaFreeHost(temp_himg);
-    cudaFree(dimg); cudaFree(dlowerX); cudaFree(dlowerY); 
-    cudaFree(dstepX); cudaFree(dstepY); cudaFree(dresX); cudaFree(dmaxIterations);
+    cudaFree(dimg);
     //
 }
