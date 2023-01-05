@@ -13,7 +13,7 @@ __kernel void convolution(int filterWidth, __global float *filter, int imageHeig
 
     // apply filter
     // if filter is 3*3, unroll (because testcases' filters are all 3*3 after cut)
-    /*if (k_end - k_start + 1 == 3 && l_end - l_start + 1 == 3)
+    if (k_end - k_start + 1 == 3 && l_end - l_start + 1 == 3)
     {
         sum += inputImage[(row + k_start) * imageWidth + col + l_start] * filter[(k_start + halffilterSize) * filterWidth + halffilterSize + l_start];
         sum += inputImage[(row + k_start) * imageWidth + col + l_start + 1] * filter[(k_start + halffilterSize) * filterWidth + halffilterSize + l_start + 1];
@@ -26,14 +26,15 @@ __kernel void convolution(int filterWidth, __global float *filter, int imageHeig
         sum += inputImage[(row + k_start + 2) * imageWidth + col + l_start] * filter[(k_start + 2 + halffilterSize) * filterWidth + halffilterSize + l_start];
         sum += inputImage[(row + k_start + 2) * imageWidth + col + l_start + 1] * filter[(k_start + 2 + halffilterSize) * filterWidth + halffilterSize + l_start + 1];
         sum += inputImage[(row + k_start + 2) * imageWidth + col + l_start + 2] * filter[(k_start + 2 + halffilterSize) * filterWidth + halffilterSize + l_start + 2];
-    }*/
-    // normal way
-    for (int k = k_start; k <= k_end; ++k)
-    {
-        int idxImage = (row + k) * imageWidth + col, idxFilter = (k + halffilterSize) * filterWidth + halffilterSize;
-        for (int l = l_start; l <= l_end; ++l) 
-            sum += inputImage[idxImage + l] * filter[idxFilter + l];        
     }
+    // normal way
+    else 
+        for (int k = k_start; k <= k_end; ++k)
+        {
+            int idxImage = (row + k) * imageWidth + col, idxFilter = (k + halffilterSize) * filterWidth + halffilterSize;
+            for (int l = l_start; l <= l_end; ++l) 
+                sum += inputImage[idxImage + l] * filter[idxFilter + l];        
+        }
 
     // assign output
     outputImage[row * imageWidth + col] = sum;
